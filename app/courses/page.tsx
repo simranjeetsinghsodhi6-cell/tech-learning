@@ -1,0 +1,5 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { courses, courseIcons } from '@/lib/courses';
+export const metadata: Metadata = { title: 'Courses', description: 'Browse production-focused courses for Next.js, TypeScript, Supabase, GitHub, and Vercel.' };
+export default function CoursesPage() { return <main className="mx-auto max-w-7xl px-4 py-16"><h1 className="text-4xl font-black md:text-6xl">Courses</h1><p className="mt-4 max-w-2xl text-muted-foreground">Structured learning paths with clear outcomes, real tooling, and release-ready habits.</p><div className="mt-10 grid gap-6 md:grid-cols-2">{courses.map((course)=>{ const Icon = courseIcons[course.icon]; return <Link className="rounded-[2rem] border border-border bg-card p-7 hover:shadow-soft" href={`/courses/${course.slug}`} key={course.slug}><Icon className="h-9 w-9 text-primary"/><p className="mt-5 text-sm font-bold text-primary">{course.level} • {course.duration}</p><h2 className="mt-2 text-2xl font-black">{course.title}</h2><p className="mt-3 text-muted-foreground">{course.description}</p></Link>; })}</div></main>; }

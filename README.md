@@ -1,11 +1,35 @@
 # Tech Learning
 
-Tech Learning is a beginner-friendly platform to learn coding, GitHub, and practical tech skills step by step.
+Tech Learning is a production-ready learning platform built with Next.js, TypeScript, Tailwind CSS, Supabase authentication, GitHub-based collaboration, and Vercel deployment.
 
-## GitHub Pages
+## Features
 
-This repository is deployed as a project site at:
+- App Router structure with landing, courses, course detail, dashboard, profile, settings, login, and signup pages.
+- Responsive Tailwind CSS interface with dark/light mode support.
+- SEO metadata, sitemap, and robots configuration.
+- Supabase client integration for email/password authentication.
+- Vercel-ready build scripts and environment variable template.
 
-<https://simranjeetsinghsodhi6-cell.github.io/tech-learning/>
+## Getting started
 
-The site is a static HTML/CSS/JavaScript application. Asset references in `index.html` use relative paths (`./styles.css` and `./script.js`) so they continue to work when GitHub Pages serves the repository from the `/tech-learning/` project base path.
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Set the following variables in `.env.local` and in Vercel project settings:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.example
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+## Quality checks
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
