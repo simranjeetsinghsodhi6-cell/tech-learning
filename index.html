@@ -5,103 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Tech Learning is a beginner-friendly platform to learn coding, GitHub, and practical tech skills step by step."
+      content="Tech Learning is a premium beginner-friendly platform to learn coding, GitHub, and practical tech skills step by step."
     />
-    <title>Tech Learning</title>
+    <meta name="theme-color" content="#0f172a" />
+    <title>Tech Learning | Build real-world tech skills</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="site-header">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" id="top">
       <nav class="nav" aria-label="Main navigation">
-        <a class="logo" href="./index.html" aria-label="Tech Learning home">
+        <a class="logo" href="#top" aria-label="Tech Learning home">
           <span class="logo-mark">TL</span>
           <span>Tech Learning</span>
         </a>
-        <div class="nav-links">
-          <a href="#paths">Learning Paths</a>
-          <a href="#projects">Projects</a>
-          <a href="#resources">Resources</a>
-        </div>
-      </nav>
 
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Beginner friendly • Project based • Practical</p>
-          <h1>Learn coding, GitHub, and real-world tech skills step by step.</h1>
-          <p>
-            Tech Learning helps beginners build confidence with guided lessons,
-            hands-on projects, and simple explanations for the tools developers use every day.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#paths">Start learning</a>
-            <a class="button secondary" href="#projects">Explore projects</a>
-          </div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+          <span class="sr-only">Toggle navigation</span>
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="nav-links" id="nav-menu">
+          <a href="#paths">Paths</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#projects">Projects</a>
+          <a href="#testimonials">Stories</a>
+          <a href="#faq">FAQ</a>
         </div>
-        <div class="hero-card" aria-label="Learning dashboard preview">
-          <div class="card-header">
-            <span></span><span></span><span></span>
-          </div>
-          <h2>Today&apos;s roadmap</h2>
-          <ul>
-            <li><strong>HTML & CSS:</strong> Build a responsive landing page</li>
-            <li><strong>JavaScript:</strong> Add interactivity to your UI</li>
-            <li><strong>GitHub:</strong> Publish your work with Pages</li>
-          </ul>
-        </div>
-      </section>
+
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+          <span class="theme-icon" aria-hidden="true">☾</span>
+        </button>
+      </nav>
     </header>
 
-    <main>
-      <section id="paths" class="section">
-        <div class="section-heading">
+    <main id="main">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true">
+          <span class="blob blob-one"></span>
+          <span class="blob blob-two"></span>
+          <span class="blob blob-three"></span>
+        </div>
+        <div class="hero-copy reveal fade-up">
+          <p class="eyebrow">Beginner friendly • Project based • Practical</p>
+          <h1 id="hero-title">Learn coding, GitHub, and real-world tech skills step by step.</h1>
+          <p class="hero-text">
+            Tech Learning turns confusing developer concepts into guided lessons, polished projects,
+            and simple habits that help beginners ship confidently.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary magnetic" href="#paths">Start learning <span>→</span></a>
+            <a class="button secondary magnetic" href="#projects">Explore projects</a>
+          </div>
+          <div class="stats" aria-label="Tech Learning impact statistics">
+            <div><strong data-counter data-target="24">0</strong><span>guided modules</span></div>
+            <div><strong data-counter data-target="12">0</strong><span>portfolio projects</span></div>
+            <div><strong data-counter data-target="98" data-suffix="%">0%</strong><span>beginner clarity</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card reveal scale-in" aria-label="Learning dashboard preview">
+          <div class="card-header"><span></span><span></span><span></span></div>
+          <p class="mini-label">Today&apos;s roadmap</p>
+          <h2>Ship a GitHub Pages site</h2>
+          <ul>
+            <li><span>01</span><strong>HTML & CSS</strong><small>Build responsive sections</small></li>
+            <li><span>02</span><strong>JavaScript</strong><small>Add interactive UI patterns</small></li>
+            <li><span>03</span><strong>GitHub</strong><small>Commit, publish, and share</small></li>
+          </ul>
+          <div class="progress-card"><span></span><p>72% weekly progress</p></div>
+        </div>
+      </section>
+
+      <section id="paths" class="section section-shell">
+        <div class="section-heading reveal fade-up">
           <p class="eyebrow">Learning paths</p>
-          <h2>Choose what you want to learn next</h2>
+          <h2>Choose the skill track that matches your next milestone.</h2>
+          <p>Each path combines concise theory, practice prompts, and a finished portfolio artifact.</p>
         </div>
         <div class="grid cards">
-          <article class="card">
-            <h3>Web Fundamentals</h3>
-            <p>Master HTML, CSS, accessibility, and responsive layouts by building polished webpages.</p>
-          </article>
-          <article class="card">
-            <h3>JavaScript Basics</h3>
-            <p>Learn variables, functions, DOM events, and browser debugging with bite-sized lessons.</p>
-          </article>
-          <article class="card">
-            <h3>Git & GitHub</h3>
-            <p>Practice commits, branches, pull requests, and GitHub Pages deployment workflows.</p>
-          </article>
+          <article class="card reveal slide-up"><span class="icon">⌘</span><h3>Web Fundamentals</h3><p>Master semantic HTML, modern CSS, accessibility, and responsive layouts.</p></article>
+          <article class="card reveal slide-up"><span class="icon">{ }</span><h3>JavaScript Basics</h3><p>Learn variables, functions, DOM events, browser debugging, and UI state.</p></article>
+          <article class="card reveal slide-up"><span class="icon">⎇</span><h3>Git & GitHub</h3><p>Practice commits, branches, pull requests, and GitHub Pages deployment.</p></article>
         </div>
       </section>
 
-      <section id="projects" class="section split">
-        <div>
-          <p class="eyebrow">Hands-on projects</p>
-          <h2>Build portfolio-ready work as you learn</h2>
-          <p>
-            Every topic includes a practical project so learners can turn concepts into real results.
-          </p>
+      <section id="roadmap" class="section section-shell split">
+        <div class="reveal fade-up">
+          <p class="eyebrow">Interactive roadmap</p>
+          <h2>A clear path from first lesson to published project.</h2>
+          <p>Tap a milestone to preview what you will build and why it matters.</p>
         </div>
-        <ul class="project-list">
-          <li>Personal portfolio website</li>
-          <li>Interactive quiz app</li>
-          <li>GitHub Pages documentation site</li>
-          <li>Responsive product landing page</li>
-        </ul>
+        <div class="timeline reveal slide-up" role="tablist" aria-label="Learning roadmap">
+          <button class="timeline-item active" type="button" data-detail="Set up your editor, browser workflow, and GitHub account." role="tab" aria-selected="true"><span>Week 01</span><strong>Foundation setup</strong></button>
+          <button class="timeline-item" type="button" data-detail="Create responsive components, navigation, and accessible layouts." role="tab" aria-selected="false"><span>Week 02</span><strong>Build the interface</strong></button>
+          <button class="timeline-item" type="button" data-detail="Add counters, accordions, smooth scrolling, and polished micro-interactions." role="tab" aria-selected="false"><span>Week 03</span><strong>Make it interactive</strong></button>
+          <button class="timeline-item" type="button" data-detail="Commit your code, deploy with GitHub Pages, and polish your README." role="tab" aria-selected="false"><span>Week 04</span><strong>Publish and present</strong></button>
+          <p class="timeline-detail" aria-live="polite">Set up your editor, browser workflow, and GitHub account.</p>
+        </div>
       </section>
 
-      <section id="resources" class="section resources">
+      <section id="projects" class="section section-shell">
+        <div class="section-heading reveal fade-up"><p class="eyebrow">Projects showcase</p><h2>Build portfolio-ready work while you learn.</h2></div>
+        <div class="project-grid">
+          <article class="project-card reveal scale-in"><span>01</span><h3>Personal portfolio</h3><p>A responsive homepage with a refined visual system.</p></article>
+          <article class="project-card reveal scale-in"><span>02</span><h3>Interactive quiz app</h3><p>DOM events, scoring logic, and delightful feedback states.</p></article>
+          <article class="project-card reveal scale-in"><span>03</span><h3>Docs site</h3><p>GitHub Pages deployment with clean navigation and docs structure.</p></article>
+          <article class="project-card reveal scale-in"><span>04</span><h3>Product landing page</h3><p>Conversion-focused sections, testimonials, and FAQ patterns.</p></article>
+        </div>
+      </section>
+
+      <section id="testimonials" class="section section-shell testimonials">
+        <div class="section-heading reveal fade-up"><p class="eyebrow">Learner stories</p><h2>Designed for people starting from zero.</h2></div>
+        <div class="grid">
+          <blockquote class="card reveal slide-up"><p>“The roadmap made GitHub feel approachable instead of intimidating.”</p><cite>— Maya, career switcher</cite></blockquote>
+          <blockquote class="card reveal slide-up"><p>“I finally understood how HTML, CSS, and JavaScript work together.”</p><cite>— Jordan, student</cite></blockquote>
+          <blockquote class="card reveal slide-up"><p>“The projects gave me something polished to share in interviews.”</p><cite>— Priya, junior developer</cite></blockquote>
+        </div>
+      </section>
+
+      <section id="resources" class="section section-shell resources reveal fade-up">
         <p class="eyebrow">Resources</p>
-        <h2>Simple tools for steady progress</h2>
-        <div class="resource-row">
-          <span>📘 Guided notes</span>
-          <span>🧪 Practice challenges</span>
-          <span>🚀 Deployment checklists</span>
+        <h2>Simple tools for steady progress.</h2>
+        <div class="resource-row"><span>📘 Guided notes</span><span>🧪 Practice challenges</span><span>🚀 Deployment checklists</span><span>✨ Portfolio polish tips</span></div>
+      </section>
+
+      <section id="faq" class="section section-shell faq">
+        <div class="section-heading reveal fade-up"><p class="eyebrow">FAQ</p><h2>Answers before you start.</h2></div>
+        <div class="faq-list reveal slide-up">
+          <details><summary>Do I need coding experience?</summary><p>No. Tech Learning is built for beginners and explains each concept step by step.</p></details>
+          <details><summary>Can I publish my projects?</summary><p>Yes. The GitHub path includes a Pages workflow so your projects can live online.</p></details>
+          <details><summary>Is this still a static website?</summary><p>Yes. Everything runs with HTML, CSS, and vanilla JavaScript for GitHub Pages compatibility.</p></details>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <p>&copy; 2026 Tech Learning. Built for GitHub Pages.</p>
+    <footer class="footer section-shell">
+      <div><a class="logo" href="#top"><span class="logo-mark">TL</span><span>Tech Learning</span></a><p>&copy; 2026 Tech Learning. Built for GitHub Pages.</p></div>
+      <div class="social-links" aria-label="Social links"><a href="https://github.com/" rel="noopener">GitHub</a><a href="https://www.linkedin.com/" rel="noopener">LinkedIn</a><a href="https://x.com/" rel="noopener">X</a></div>
     </footer>
     <script src="./script.js" defer></script>
   </body>
