@@ -18,6 +18,17 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="loader" aria-hidden="true"><div class="loader-orb"></div><p>Preparing your learning path</p></div>
+    <div class="progress-bar" aria-hidden="true"><span></span></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="ambient-gradient" aria-hidden="true"></div>
+    <div class="background-grid" aria-hidden="true"></div>
+    <div class="floating-shapes" aria-hidden="true">
+      <span class="shape shape-1"></span>
+      <span class="shape shape-2"></span>
+      <span class="shape shape-3"></span>
+      <span class="shape shape-4"></span>
+    </div>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" id="top">
@@ -54,6 +65,7 @@
           <span class="blob blob-three"></span>
         </div>
         <div class="hero-copy reveal fade-up">
+          <div class="hero-illustration" aria-hidden="true"><svg viewBox="0 0 220 90"><path class="draw-line" d="M14 66 C52 16 88 74 122 34 S182 24 206 60"/><circle class="orbit-dot" cx="122" cy="34" r="5"/><rect class="svg-chip" x="24" y="16" width="46" height="24" rx="12"/><rect class="svg-chip delay" x="150" y="48" width="48" height="24" rx="12"/></svg></div>
           <p class="eyebrow">Beginner friendly • Project based • Practical</p>
           <h1 id="hero-title">Learn coding, GitHub, and real-world tech skills step by step.</h1>
           <p class="hero-text">
@@ -71,7 +83,7 @@
           </div>
         </div>
 
-        <div class="hero-card reveal scale-in" aria-label="Learning dashboard preview">
+        <div class="hero-card tilt-card reveal scale-in" data-parallax="-0.08" aria-label="Learning dashboard preview">
           <div class="card-header"><span></span><span></span><span></span></div>
           <p class="mini-label">Today&apos;s roadmap</p>
           <h2>Ship a GitHub Pages site</h2>
@@ -84,6 +96,8 @@
         </div>
       </section>
 
+      <div class="section-divider" aria-hidden="true"><svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0 45 C220 108 380 -8 600 45 S980 108 1200 45"/></svg></div>
+
       <section id="paths" class="section section-shell">
         <div class="section-heading reveal fade-up">
           <p class="eyebrow">Learning paths</p>
@@ -91,11 +105,13 @@
           <p>Each path combines concise theory, practice prompts, and a finished portfolio artifact.</p>
         </div>
         <div class="grid cards">
-          <article class="card reveal slide-up"><span class="icon">⌘</span><h3>Web Fundamentals</h3><p>Master semantic HTML, modern CSS, accessibility, and responsive layouts.</p></article>
-          <article class="card reveal slide-up"><span class="icon">{ }</span><h3>JavaScript Basics</h3><p>Learn variables, functions, DOM events, browser debugging, and UI state.</p></article>
-          <article class="card reveal slide-up"><span class="icon">⎇</span><h3>Git & GitHub</h3><p>Practice commits, branches, pull requests, and GitHub Pages deployment.</p></article>
+          <article class="card tilt-card reveal slide-up"><span class="icon">⌘</span><h3>Web Fundamentals</h3><p>Master semantic HTML, modern CSS, accessibility, and responsive layouts.</p></article>
+          <article class="card tilt-card reveal slide-up"><span class="icon">{ }</span><h3>JavaScript Basics</h3><p>Learn variables, functions, DOM events, browser debugging, and UI state.</p></article>
+          <article class="card tilt-card reveal slide-up"><span class="icon">⎇</span><h3>Git & GitHub</h3><p>Practice commits, branches, pull requests, and GitHub Pages deployment.</p></article>
         </div>
       </section>
+
+      <div class="section-divider flip" aria-hidden="true"><svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0 45 C220 108 380 -8 600 45 S980 108 1200 45"/></svg></div>
 
       <section id="roadmap" class="section section-shell split">
         <div class="reveal fade-up">
@@ -115,23 +131,23 @@
       <section id="projects" class="section section-shell">
         <div class="section-heading reveal fade-up"><p class="eyebrow">Projects showcase</p><h2>Build portfolio-ready work while you learn.</h2></div>
         <div class="project-grid">
-          <article class="project-card reveal scale-in"><span>01</span><h3>Personal portfolio</h3><p>A responsive homepage with a refined visual system.</p></article>
-          <article class="project-card reveal scale-in"><span>02</span><h3>Interactive quiz app</h3><p>DOM events, scoring logic, and delightful feedback states.</p></article>
-          <article class="project-card reveal scale-in"><span>03</span><h3>Docs site</h3><p>GitHub Pages deployment with clean navigation and docs structure.</p></article>
-          <article class="project-card reveal scale-in"><span>04</span><h3>Product landing page</h3><p>Conversion-focused sections, testimonials, and FAQ patterns.</p></article>
+          <article class="project-card tilt-card reveal scale-in"><span>01</span><h3>Personal portfolio</h3><p>A responsive homepage with a refined visual system.</p></article>
+          <article class="project-card tilt-card reveal scale-in"><span>02</span><h3>Interactive quiz app</h3><p>DOM events, scoring logic, and delightful feedback states.</p></article>
+          <article class="project-card tilt-card reveal scale-in"><span>03</span><h3>Docs site</h3><p>GitHub Pages deployment with clean navigation and docs structure.</p></article>
+          <article class="project-card tilt-card reveal scale-in"><span>04</span><h3>Product landing page</h3><p>Conversion-focused sections, testimonials, and FAQ patterns.</p></article>
         </div>
       </section>
 
       <section id="testimonials" class="section section-shell testimonials">
         <div class="section-heading reveal fade-up"><p class="eyebrow">Learner stories</p><h2>Designed for people starting from zero.</h2></div>
         <div class="grid">
-          <blockquote class="card reveal slide-up"><p>“The roadmap made GitHub feel approachable instead of intimidating.”</p><cite>— Maya, career switcher</cite></blockquote>
-          <blockquote class="card reveal slide-up"><p>“I finally understood how HTML, CSS, and JavaScript work together.”</p><cite>— Jordan, student</cite></blockquote>
-          <blockquote class="card reveal slide-up"><p>“The projects gave me something polished to share in interviews.”</p><cite>— Priya, junior developer</cite></blockquote>
+          <blockquote class="card tilt-card reveal slide-up"><p>“The roadmap made GitHub feel approachable instead of intimidating.”</p><cite>— Maya, career switcher</cite></blockquote>
+          <blockquote class="card tilt-card reveal slide-up"><p>“I finally understood how HTML, CSS, and JavaScript work together.”</p><cite>— Jordan, student</cite></blockquote>
+          <blockquote class="card tilt-card reveal slide-up"><p>“The projects gave me something polished to share in interviews.”</p><cite>— Priya, junior developer</cite></blockquote>
         </div>
       </section>
 
-      <section id="resources" class="section section-shell resources reveal fade-up">
+      <section id="resources" class="section section-shell resources reveal fade-up" data-parallax="0.05">
         <p class="eyebrow">Resources</p>
         <h2>Simple tools for steady progress.</h2>
         <div class="resource-row"><span>📘 Guided notes</span><span>🧪 Practice challenges</span><span>🚀 Deployment checklists</span><span>✨ Portfolio polish tips</span></div>
