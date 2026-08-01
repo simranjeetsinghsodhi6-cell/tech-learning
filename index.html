@@ -176,6 +176,78 @@
         <div class="resource-row"><span>📘 Guided notes</span><span>🧪 Practice challenges</span><span>🚀 Deployment checklists</span><span>✨ Portfolio polish tips</span></div>
       </section>
 
+
+      <section id="admin" class="section section-shell admin-dashboard" hidden aria-labelledby="admin-title">
+        <div class="section-heading reveal fade-up">
+          <p class="eyebrow">Admin Dashboard</p>
+          <h2 id="admin-title">Manage courses and enrollments.</h2>
+          <p>Protected workspace for course catalog updates, thumbnail uploads, and learner enrollment status.</p>
+        </div>
+
+        <div class="admin-lock card reveal slide-up" id="admin-lock">
+          <h3>Admin access</h3>
+          <p>Enter the admin passcode to unlock dashboard tools on this device.</p>
+          <form id="admin-login-form" class="admin-form-row">
+            <label class="sr-only" for="admin-passcode">Admin passcode</label>
+            <input id="admin-passcode" type="password" placeholder="Admin passcode" autocomplete="current-password" required />
+            <button class="button primary magnetic" type="submit">Unlock <span>→</span></button>
+          </form>
+          <p class="admin-message" id="admin-login-message" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="admin-panel" id="admin-panel" hidden>
+          <div class="admin-actions reveal fade-up">
+            <button class="button primary magnetic" type="button" id="admin-add-course">Add course <span>＋</span></button>
+            <button class="button secondary magnetic" type="button" id="admin-logout">Lock dashboard</button>
+          </div>
+
+          <div class="admin-layout">
+            <form class="admin-editor card reveal slide-up" id="admin-course-form">
+              <h3 id="admin-form-title">Add course</h3>
+              <input type="hidden" id="admin-course-id" />
+              <div class="admin-field-grid">
+                <label>Title<input id="admin-title-input" type="text" required /></label>
+                <label>Category<input id="admin-category-input" type="text" required /></label>
+                <label>Instructor<input id="admin-instructor-input" type="text" required /></label>
+                <label>Duration<input id="admin-duration-input" type="text" required /></label>
+                <label>Difficulty<input id="admin-difficulty-input" type="text" required /></label>
+                <label>Price<input id="admin-price-input" type="text" required /></label>
+              </div>
+              <label>Description<textarea id="admin-description-input" rows="4" required></textarea></label>
+              <label>Outcomes<textarea id="admin-outcomes-input" rows="3" placeholder="One outcome per line"></textarea></label>
+              <label>Thumbnail emoji or image URL<input id="admin-thumbnail-input" type="text" placeholder="📚 or https://..." /></label>
+              <label>Upload thumbnail<input id="admin-thumbnail-file" type="file" accept="image/*" /></label>
+              <div class="admin-form-actions">
+                <button class="button primary magnetic" type="submit">Save course <span>→</span></button>
+                <button class="button secondary magnetic" type="button" id="admin-reset-form">Clear</button>
+              </div>
+              <p class="admin-message" id="admin-save-message" role="status" aria-live="polite"></p>
+            </form>
+
+            <div class="admin-list card reveal slide-up">
+              <h3>Courses</h3>
+              <div id="admin-course-list"></div>
+            </div>
+
+            <div class="admin-enrollments card reveal slide-up">
+              <h3>Enrollments</h3>
+              <form id="admin-enrollment-form" class="admin-form-row">
+                <select id="admin-enrollment-course" required aria-label="Enrollment course"></select>
+                <input id="admin-learner-name" type="text" placeholder="Learner name" />
+                <input id="admin-learner-email" type="email" placeholder="Learner email" required />
+                <select id="admin-enrollment-status" aria-label="Enrollment status">
+                  <option value="enrolled">Enrolled</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <button class="button primary magnetic" type="submit">Add enrollment</button>
+              </form>
+              <div id="admin-enrollment-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="faq" class="section section-shell faq">
         <div class="section-heading reveal fade-up"><p class="eyebrow">FAQ</p><h2>Answers before you start.</h2></div>
         <div class="faq-list reveal slide-up">

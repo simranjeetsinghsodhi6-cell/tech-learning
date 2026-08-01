@@ -27,3 +27,16 @@ Course cards are loaded dynamically from Supabase when credentials are provided,
 ```
 
 When those values are present, `script.js` fetches categories and courses from Supabase REST endpoints. If Supabase is unavailable, the static fallback course data is used.
+
+
+## Admin dashboard
+
+The dashboard is available at `#admin` and uses the existing visual system so the public frontend design remains unchanged. Set `window.TECH_LEARNING_ADMIN_PASSCODE` before `script.js` to customize the passcode; otherwise the local development default is `admin123`.
+
+```html
+<script>
+  window.TECH_LEARNING_ADMIN_PASSCODE = 'replace-with-a-private-passcode';
+</script>
+```
+
+The static GitHub Pages dashboard stores course, thumbnail, and enrollment edits in the browser's local storage. For production-grade protection and shared persistence, connect these controls to authenticated backend endpoints or Supabase policies that require a server-side admin role.
