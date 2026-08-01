@@ -222,7 +222,7 @@ function getCourseHref(course) {
 function createCourseCard(course) {
   return `
     <article class="card course-card tilt-card reveal slide-up">
-      <div class="course-thumb" aria-hidden="true">${course.thumbnail}</div>
+      <div class="course-thumb" aria-hidden="true">${renderThumbnail(course.thumbnail)}</div>
       <div class="course-meta"><span>${course.category}</span><span>${course.duration}</span><span>${course.difficulty}</span></div>
       <div>
         <h3>${course.title}</h3>
@@ -275,7 +275,7 @@ function renderCourseDetail(courseId) {
   const course = courses.find((item) => item.id === courseId);
   if (!course || !courseDetailCard) return false;
   courseDetailCard.innerHTML = `
-    <div class="course-thumb" aria-hidden="true">${course.thumbnail}</div>
+    <div class="course-thumb" aria-hidden="true">${renderThumbnail(course.thumbnail)}</div>
     <div>
       <p class="eyebrow">${course.category} course</p>
       <h2>${course.title}</h2>
@@ -295,6 +295,11 @@ function renderCourseDetail(courseId) {
 }
 
 function handleCourseRoute() {
+  if (window.location.hash === '#admin') {
+    showAdminDashboard();
+    return;
+  }
+  hideAdminDashboard();
   const match = window.location.hash.match(/^#course\/(.+)$/);
   if (!match) {
     if (coursesSection) coursesSection.hidden = false;
@@ -351,10 +356,216 @@ async function loadCourses() {
     console.warn('Using bundled course data because the remote course store is unavailable.', error);
     courses = fallbackCourses;
   }
+  loadAdminState();
   renderCourseFilters();
   renderCourses();
   handleCourseRoute();
 }
+
+const adminStorageKey = 'tech-learning-admin-unlocked';
+const adminCoursesKey = 'tech-learning-admin-courses';
+const adminEnrollmentsKey = 'tech-learning-admin-enrollments';
+const adminPasscode = window.TECH_LEARNING_ADMIN_PASSCODE || 'admin123';
+const adminSection = document.querySelector('#admin');
+const adminLock = document.querySelector('#admin-lock');
+const adminPanel = document.querySelector('#admin-panel');
+const adminLoginForm = document.querySelector('#admin-login-form');
+const adminLoginMessage = document.querySelector('#admin-login-message');
+const adminCourseForm = document.querySelector('#admin-course-form');
+const adminFormTitle = document.querySelector('#admin-form-title');
+const adminCourseList = document.querySelector('#admin-course-list');
+const adminEnrollmentForm = document.querySelector('#admin-enrollment-form');
+const adminEnrollmentCourse = document.querySelector('#admin-enrollment-course');
+const adminEnrollmentList = document.querySelector('#admin-enrollment-list');
+const adminSaveMessage = document.querySelector('#admin-save-message');
+let enrollments = [];
+
+function escapeHtml(value = '') {
+  return String(value).replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+}
+
+function slugify(value) {
+  return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `course-${Date.now()}`;
+}
+
+function renderThumbnail(thumbnail) {
+  const value = thumbnail || '📚';
+  if (/^(data:image\/|https?:\/\/|\.\/|\/)/.test(value)) {
+    return `<img src="${escapeHtml(value)}" alt="" loading="lazy" />`;
+  }
+  return escapeHtml(value);
+}
+
+function persistAdminCourses() {
+  localStorage.setItem(adminCoursesKey, JSON.stringify(courses));
+}
+
+function persistEnrollments() {
+  localStorage.setItem(adminEnrollmentsKey, JSON.stringify(enrollments));
+}
+
+function loadAdminState() {
+  const savedCourses = localStorage.getItem(adminCoursesKey);
+  const savedEnrollments = localStorage.getItem(adminEnrollmentsKey);
+  if (savedCourses) courses = JSON.parse(savedCourses);
+  if (savedEnrollments) enrollments = JSON.parse(savedEnrollments);
+}
+
+function setAdminMessage(element, message) {
+  if (!element) return;
+  element.textContent = message;
+}
+
+function isAdminUnlocked() {
+  return sessionStorage.getItem(adminStorageKey) === 'true';
+}
+
+function setAdminVisibility() {
+  const unlocked = isAdminUnlocked();
+  if (adminLock) adminLock.hidden = unlocked;
+  if (adminPanel) adminPanel.hidden = !unlocked;
+  if (unlocked) renderAdminDashboard();
+}
+
+function showAdminDashboard() {
+  if (!adminSection) return;
+  adminSection.hidden = false;
+  document.querySelectorAll('main > section:not(#admin)').forEach((section) => { section.hidden = true; });
+  setAdminVisibility();
+  adminSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
+  observeRevealElements(adminSection);
+  enableRipple(adminSection);
+}
+
+function hideAdminDashboard() {
+  if (adminSection) adminSection.hidden = true;
+  document.querySelectorAll('main > section:not(#admin):not(#course-details)').forEach((section) => { section.hidden = false; });
+}
+
+function resetAdminForm() {
+  adminCourseForm?.reset();
+  document.querySelector('#admin-course-id').value = '';
+  if (adminFormTitle) adminFormTitle.textContent = 'Add course';
+  setAdminMessage(adminSaveMessage, '');
+}
+
+function getAdminFormCourse() {
+  const title = document.querySelector('#admin-title-input').value.trim();
+  const existingId = document.querySelector('#admin-course-id').value;
+  return {
+    id: existingId || slugify(title),
+    category: document.querySelector('#admin-category-input').value.trim(),
+    thumbnail: document.querySelector('#admin-thumbnail-input').value.trim() || '📚',
+    title,
+    description: document.querySelector('#admin-description-input').value.trim(),
+    instructor: document.querySelector('#admin-instructor-input').value.trim(),
+    duration: document.querySelector('#admin-duration-input').value.trim(),
+    difficulty: document.querySelector('#admin-difficulty-input').value.trim(),
+    price: document.querySelector('#admin-price-input').value.trim(),
+    outcomes: document.querySelector('#admin-outcomes-input').value.split('\n').map((item) => item.trim()).filter(Boolean),
+  };
+}
+
+function editAdminCourse(courseId) {
+  const course = courses.find((item) => item.id === courseId);
+  if (!course) return;
+  document.querySelector('#admin-course-id').value = course.id;
+  document.querySelector('#admin-title-input').value = course.title;
+  document.querySelector('#admin-category-input').value = course.category;
+  document.querySelector('#admin-instructor-input').value = course.instructor;
+  document.querySelector('#admin-duration-input').value = course.duration;
+  document.querySelector('#admin-difficulty-input').value = course.difficulty;
+  document.querySelector('#admin-price-input').value = course.price;
+  document.querySelector('#admin-description-input').value = course.description;
+  document.querySelector('#admin-outcomes-input').value = course.outcomes.join('\n');
+  document.querySelector('#admin-thumbnail-input').value = course.thumbnail;
+  if (adminFormTitle) adminFormTitle.textContent = 'Edit course';
+}
+
+function deleteAdminCourse(courseId) {
+  const course = courses.find((item) => item.id === courseId);
+  if (!course || !window.confirm(`Delete ${course.title}?`)) return;
+  courses = courses.filter((item) => item.id !== courseId);
+  enrollments = enrollments.filter((item) => item.courseId !== courseId);
+  persistAdminCourses();
+  persistEnrollments();
+  renderCourseFilters(); renderCourses(); renderAdminDashboard(); resetAdminForm();
+}
+
+function renderAdminDashboard() {
+  if (adminCourseList) {
+    adminCourseList.innerHTML = courses.map((course) => `<article class="admin-list-item"><span class="admin-thumb">${renderThumbnail(course.thumbnail)}</span><div><strong>${escapeHtml(course.title)}</strong><small>${escapeHtml(course.category)} • ${escapeHtml(course.instructor)}</small></div><button class="button secondary" type="button" data-edit-course="${escapeHtml(course.id)}">Edit</button><button class="button secondary" type="button" data-delete-course="${escapeHtml(course.id)}">Delete</button></article>`).join('');
+    adminCourseList.querySelectorAll('[data-edit-course]').forEach((button) => button.addEventListener('click', () => editAdminCourse(button.dataset.editCourse)));
+    adminCourseList.querySelectorAll('[data-delete-course]').forEach((button) => button.addEventListener('click', () => deleteAdminCourse(button.dataset.deleteCourse)));
+  }
+  if (adminEnrollmentCourse) adminEnrollmentCourse.innerHTML = courses.map((course) => `<option value="${escapeHtml(course.id)}">${escapeHtml(course.title)}</option>`).join('');
+  if (adminEnrollmentList) {
+    adminEnrollmentList.innerHTML = enrollments.length ? enrollments.map((enrollment) => {
+      const course = courses.find((item) => item.id === enrollment.courseId);
+      return `<article class="admin-list-item"><div><strong>${escapeHtml(enrollment.name || enrollment.email)}</strong><small>${escapeHtml(enrollment.email)} • ${escapeHtml(course?.title || 'Deleted course')}</small></div><span class="course-price">${escapeHtml(enrollment.status)}</span><button class="button secondary" type="button" data-remove-enrollment="${escapeHtml(enrollment.id)}">Remove</button></article>`;
+    }).join('') : '<p class="empty-state">No enrollments yet.</p>';
+    adminEnrollmentList.querySelectorAll('[data-remove-enrollment]').forEach((button) => button.addEventListener('click', () => {
+      enrollments = enrollments.filter((item) => item.id !== button.dataset.removeEnrollment);
+      persistEnrollments(); renderAdminDashboard();
+    }));
+  }
+  observeRevealElements(adminPanel || document);
+  enableRipple(adminPanel || document);
+}
+
+adminLoginForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const input = document.querySelector('#admin-passcode');
+  if (input.value !== adminPasscode) {
+    setAdminMessage(adminLoginMessage, 'Invalid passcode.');
+    return;
+  }
+  sessionStorage.setItem(adminStorageKey, 'true');
+  input.value = '';
+  setAdminMessage(adminLoginMessage, 'Dashboard unlocked.');
+  setAdminVisibility();
+});
+
+document.querySelector('#admin-logout')?.addEventListener('click', () => {
+  sessionStorage.removeItem(adminStorageKey);
+  setAdminVisibility();
+});
+
+document.querySelector('#admin-add-course')?.addEventListener('click', resetAdminForm);
+document.querySelector('#admin-reset-form')?.addEventListener('click', resetAdminForm);
+
+document.querySelector('#admin-thumbnail-file')?.addEventListener('change', (event) => {
+  const [file] = event.target.files;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.addEventListener('load', () => { document.querySelector('#admin-thumbnail-input').value = reader.result; });
+  reader.readAsDataURL(file);
+});
+
+adminCourseForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const course = getAdminFormCourse();
+  const existingIndex = courses.findIndex((item) => item.id === course.id);
+  if (existingIndex >= 0) courses[existingIndex] = course;
+  else courses.unshift(course);
+  persistAdminCourses();
+  renderCourseFilters(); renderCourses(); renderAdminDashboard(); resetAdminForm();
+  setAdminMessage(adminSaveMessage, 'Course saved locally.');
+});
+
+adminEnrollmentForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  enrollments.unshift({
+    id: `enrollment-${Date.now()}`,
+    courseId: adminEnrollmentCourse.value,
+    name: document.querySelector('#admin-learner-name').value.trim(),
+    email: document.querySelector('#admin-learner-email').value.trim(),
+    status: document.querySelector('#admin-enrollment-status').value,
+  });
+  persistEnrollments();
+  adminEnrollmentForm.reset();
+  renderAdminDashboard();
+});
 
 
 courseSearch?.addEventListener('input', renderCourses);
