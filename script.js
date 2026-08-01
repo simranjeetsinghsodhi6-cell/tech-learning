@@ -3,6 +3,7 @@ document.documentElement.classList.add('js-enabled');
 document.body.classList.add('is-transitioning');
 
 const storageKey = 'tech-learning-theme';
+const lessonProgressKey = 'tech-learning-lesson-progress';
 const themeToggle = document.querySelector('.theme-toggle');
 const themeIcon = document.querySelector('.theme-icon');
 const menuToggle = document.querySelector('.menu-toggle');
@@ -23,14 +24,252 @@ const supabaseConfig = {
 };
 
 const fallbackCourses = [
-  { id: 'web-fundamentals-bootcamp', category: 'Web', thumbnail: '🌐', title: 'Web Fundamentals Bootcamp', description: 'Build accessible pages with semantic HTML, modern CSS, and responsive layouts.', instructor: 'Maya Chen', duration: '6 hours', difficulty: 'Beginner', price: 'Free', outcomes: ['Structure pages with semantic HTML', 'Create responsive CSS layouts', 'Publish a polished landing page'] },
-  { id: 'javascript-ui-essentials', category: 'JavaScript', thumbnail: '⚡', title: 'JavaScript UI Essentials', description: 'Practice DOM events, state, browser debugging, and delightful interactive patterns.', instructor: 'Jordan Lee', duration: '8 hours', difficulty: 'Beginner', price: '$29', outcomes: ['Handle user events confidently', 'Update UI from reusable data', 'Debug common browser issues'] },
-  { id: 'github-pages-launch', category: 'GitHub', thumbnail: '🚀', title: 'GitHub Pages Launch', description: 'Learn commits, branches, pull requests, and a repeatable GitHub Pages workflow.', instructor: 'Priya Sharma', duration: '5 hours', difficulty: 'Beginner', price: 'Free', outcomes: ['Track work with Git commits', 'Collaborate with pull requests', 'Deploy a project site'] },
-  { id: 'portfolio-project-lab', category: 'Projects', thumbnail: '💼', title: 'Portfolio Project Lab', description: 'Turn lessons into a professional portfolio piece with copy, polish, and launch checks.', instructor: 'Alex Rivera', duration: '10 hours', difficulty: 'Intermediate', price: '$49', outcomes: ['Plan a portfolio-ready project', 'Polish interactions and content', 'Prepare a launch checklist'] },
+  {
+    "id": "web-fundamentals-bootcamp",
+    "category": "Web",
+    "thumbnail": "🌐",
+    "title": "Web Fundamentals Bootcamp",
+    "description": "Build accessible pages with semantic HTML, modern CSS, and responsive layouts.",
+    "instructor": "Maya Chen",
+    "duration": "6 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Structure pages with semantic HTML",
+      "Create responsive CSS layouts",
+      "Publish a polished landing page"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "HTML foundations",
+            "description": "Write meaningful page structure with headings, landmarks, and reusable content sections.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "CSS layout practice",
+            "description": "Use modern CSS spacing, grid, and responsive rules to adapt the course project.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Publish the page",
+            "description": "Review accessibility checks and prepare the finished landing page for sharing.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "javascript-ui-essentials",
+    "category": "JavaScript",
+    "thumbnail": "⚡",
+    "title": "JavaScript UI Essentials",
+    "description": "Practice DOM events, state, browser debugging, and delightful interactive patterns.",
+    "instructor": "Jordan Lee",
+    "duration": "8 hours",
+    "difficulty": "Beginner",
+    "price": "$29",
+    "outcomes": [
+      "Handle user events confidently",
+      "Update UI from reusable data",
+      "Debug common browser issues"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "DOM selection basics",
+            "description": "Connect JavaScript to visible interface elements and read useful browser state.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Events and UI state",
+            "description": "Respond to user actions and keep interface state predictable.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Debugging workflow",
+            "description": "Use browser developer tools to inspect errors and verify interaction behavior.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "github-pages-launch",
+    "category": "GitHub",
+    "thumbnail": "🚀",
+    "title": "GitHub Pages Launch",
+    "description": "Learn commits, branches, pull requests, and a repeatable GitHub Pages workflow.",
+    "instructor": "Priya Sharma",
+    "duration": "5 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Track work with Git commits",
+      "Collaborate with pull requests",
+      "Deploy a project site"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Git commit routine",
+            "description": "Create small commits that document each step of project progress.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Branch and pull request flow",
+            "description": "Practice a safe collaboration workflow with branches and review notes.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Deploy with Pages",
+            "description": "Publish a static project and validate the public GitHub Pages URL.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "portfolio-project-lab",
+    "category": "Projects",
+    "thumbnail": "💼",
+    "title": "Portfolio Project Lab",
+    "description": "Turn lessons into a professional portfolio piece with copy, polish, and launch checks.",
+    "instructor": "Alex Rivera",
+    "duration": "10 hours",
+    "difficulty": "Intermediate",
+    "price": "$49",
+    "outcomes": [
+      "Plan a portfolio-ready project",
+      "Polish interactions and content",
+      "Prepare a launch checklist"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Project scope map",
+            "description": "Define audience, goals, sections, and success criteria before building.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Polish pass",
+            "description": "Improve copy, hierarchy, interactions, and responsive presentation.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Launch checklist",
+            "description": "Package the project with final QA, README notes, and sharing steps.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
+  }
 ];
 let courses = fallbackCourses;
 let categories = [];
 let activeCategory = 'All';
+let selectedLessonId = '';
+let completedLessons = loadLessonProgress();
 
 const getPreferredTheme = () => localStorage.getItem(storageKey) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
@@ -215,8 +454,35 @@ function enableRipple(scope = document) {
 }
 enableRipple();
 
-function getCourseHref(course) {
-  return `#course/${course.id}`;
+function getCourseHref(course, lessonId = '') {
+  return `#course/${course.id}${lessonId ? `/${lessonId}` : ''}`;
+}
+
+function loadLessonProgress() {
+  try {
+    return JSON.parse(localStorage.getItem(lessonProgressKey)) || {};
+  } catch (error) {
+    return {};
+  }
+}
+
+function persistLessonProgress() {
+  localStorage.setItem(lessonProgressKey, JSON.stringify(completedLessons));
+}
+
+function getCourseLessons(course) {
+  return (course.modules || []).flatMap((module) => (module.lessons || []).map((lesson) => ({ ...lesson, moduleTitle: module.title })));
+}
+
+function getCourseProgress(course) {
+  const lessons = getCourseLessons(course);
+  const completed = lessons.filter((lesson) => completedLessons[`${course.id}:${lesson.id}`]).length;
+  return { completed, total: lessons.length, percent: lessons.length ? Math.round((completed / lessons.length) * 100) : 0 };
+}
+
+function getSelectedLesson(course, requestedLessonId = '') {
+  const lessons = getCourseLessons(course);
+  return lessons.find((lesson) => lesson.id === requestedLessonId) || lessons[0] || null;
 }
 
 function createCourseCard(course) {
@@ -271,20 +537,84 @@ function renderCourses() {
   enableRipple(courseList);
 }
 
-function renderCourseDetail(courseId) {
+function renderCourseSidebar(course, activeLesson) {
+  return `
+    <aside class="course-lesson-sidebar" aria-label="Course modules and lessons">
+      ${(course.modules || []).map((module, moduleIndex) => `
+        <section class="course-module">
+          <p class="mini-label">Module ${moduleIndex + 1}</p>
+          <h3>${escapeHtml(module.title)}</h3>
+          <p>${escapeHtml(module.description || '')}</p>
+          <ul>
+            ${(module.lessons || []).map((lesson) => {
+              const isActive = lesson.id === activeLesson?.id;
+              const isComplete = completedLessons[`${course.id}:${lesson.id}`];
+              return `<li><a class="lesson-link${isActive ? ' active' : ''}" href="${getCourseHref(course, lesson.id)}" aria-current="${isActive ? 'page' : 'false'}"><span>${isComplete ? '✓' : '○'}</span>${escapeHtml(lesson.title)}</a></li>`;
+            }).join('')}
+          </ul>
+        </section>
+      `).join('')}
+    </aside>
+  `;
+}
+
+function renderLessonPanel(course, lesson) {
+  if (!lesson) return '<p class="empty-state">Lessons are being prepared for this course.</p>';
+  const progress = getCourseProgress(course);
+  const progressLabel = `${progress.completed} of ${progress.total} lessons completed`;
+  const lessonKey = `${course.id}:${lesson.id}`;
+  const isComplete = Boolean(completedLessons[lessonKey]);
+  return `
+    <article class="course-lesson-panel">
+      <div class="lesson-progress" aria-label="Lesson progress">
+        <div><strong>${progress.percent}% complete</strong><small>${progressLabel}</small></div>
+        <div class="progress-card"><span style="width: ${progress.percent}%"></span></div>
+      </div>
+      <div class="lesson-video">
+        <iframe src="${escapeHtml(lesson.videoUrl)}" title="${escapeHtml(lesson.title)} video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <p class="eyebrow">${escapeHtml(lesson.moduleTitle || 'Lesson')}</p>
+      <h3>${escapeHtml(lesson.title)}</h3>
+      <p>${escapeHtml(lesson.description)}</p>
+      <div class="lesson-notes">
+        <h3>Handwritten notes</h3>
+        <iframe src="${escapeHtml(lesson.notesUrl)}" title="${escapeHtml(lesson.title)} handwritten notes" loading="lazy"></iframe>
+      </div>
+      <div class="lesson-actions">
+        <a class="button secondary magnetic" href="${escapeHtml(lesson.notesUrl)}" download>Download Notes</a>
+        <button class="button primary magnetic" type="button" data-complete-lesson="${escapeHtml(lesson.id)}">${isComplete ? 'Completed ✓' : 'Mark as Completed'} <span>→</span></button>
+      </div>
+    </article>
+  `;
+}
+
+function renderCourseDetail(courseId, requestedLessonId = '') {
   const course = courses.find((item) => item.id === courseId);
   if (!course || !courseDetailCard) return false;
+  const lesson = getSelectedLesson(course, requestedLessonId);
+  selectedLessonId = lesson?.id || '';
   courseDetailCard.innerHTML = `
-    <div class="course-thumb" aria-hidden="true">${renderThumbnail(course.thumbnail)}</div>
-    <div>
-      <p class="eyebrow">${course.category} course</p>
-      <h2>${course.title}</h2>
-      <p>${course.description}</p>
-      <div class="course-meta"><span>${course.instructor}</span><span>${course.duration}</span><span>${course.difficulty}</span><span>${course.price}</span></div>
-      <ul class="course-outcomes">${course.outcomes.map((outcome) => `<li>${outcome}</li>`).join('')}</ul>
-      <a class="button primary magnetic" href="#courses">Enroll now <span>→</span></a>
+    <div class="course-detail-summary">
+      <div class="course-thumb" aria-hidden="true">${renderThumbnail(course.thumbnail)}</div>
+      <div>
+        <p class="eyebrow">${escapeHtml(course.category)} course</p>
+        <h2>${escapeHtml(course.title)}</h2>
+        <p>${escapeHtml(course.description)}</p>
+        <div class="course-meta"><span>${escapeHtml(course.instructor)}</span><span>${escapeHtml(course.duration)}</span><span>${escapeHtml(course.difficulty)}</span><span>${escapeHtml(course.price)}</span></div>
+        <ul class="course-outcomes">${(course.outcomes || []).map((outcome) => `<li>${escapeHtml(outcome)}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="course-learning-layout">
+      ${renderCourseSidebar(course, lesson)}
+      ${renderLessonPanel(course, lesson)}
     </div>
   `;
+  courseDetailCard.querySelector('[data-complete-lesson]')?.addEventListener('click', () => {
+    if (!lesson) return;
+    completedLessons[`${course.id}:${lesson.id}`] = true;
+    persistLessonProgress();
+    renderCourseDetail(course.id, lesson.id);
+  });
   courseDetailsSection.hidden = false;
   coursesSection.hidden = true;
   courseDetailsSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
@@ -300,13 +630,13 @@ function handleCourseRoute() {
     return;
   }
   hideAdminDashboard();
-  const match = window.location.hash.match(/^#course\/(.+)$/);
+  const match = window.location.hash.match(/^#course\/([^/]+)(?:\/(.+))?$/);
   if (!match) {
     if (coursesSection) coursesSection.hidden = false;
     if (courseDetailsSection) courseDetailsSection.hidden = true;
     return;
   }
-  if (!renderCourseDetail(match[1])) window.location.hash = '#courses';
+  if (!renderCourseDetail(match[1], match[2] || selectedLessonId)) window.location.hash = '#courses';
 }
 
 
@@ -322,6 +652,7 @@ function mapSupabaseCourse(course) {
     difficulty: course.difficulty,
     price: course.price,
     outcomes: Array.isArray(course.outcomes) ? course.outcomes : [],
+    modules: Array.isArray(course.modules) ? course.modules : [],
   };
 }
 
@@ -463,6 +794,7 @@ function getAdminFormCourse() {
     difficulty: document.querySelector('#admin-difficulty-input').value.trim(),
     price: document.querySelector('#admin-price-input').value.trim(),
     outcomes: document.querySelector('#admin-outcomes-input').value.split('\n').map((item) => item.trim()).filter(Boolean),
+    modules: courses.find((item) => item.id === existingId)?.modules || [],
   };
 }
 
