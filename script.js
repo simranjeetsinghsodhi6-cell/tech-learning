@@ -803,6 +803,199 @@ const fallbackCourses = [
         ]
       }
     ]
+  },
+  {
+    "id": "prompt-engineering",
+    "category": "Artificial Intelligence",
+    "thumbnail": "💬",
+    "title": "Prompt Engineering",
+    "description": "Learn how to communicate effectively with AI models like ChatGPT, Claude, Gemini, and other LLMs. Master prompt writing techniques, workflows, automation, and real-world AI applications.",
+    "instructor": "AI Learning Team",
+    "duration": "6 Weeks",
+    "difficulty": "Beginner to Intermediate",
+    "price": "Free",
+    "outcomes": [
+      "Write clear prompts for modern LLMs",
+      "Build reusable AI workflows and prompt templates",
+      "Apply AI to real business productivity tasks"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Introduction to AI & LLMs",
+        "description": "Understand generative AI, large language models, and practical use cases.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "What is Generative AI",
+            "description": "Learn what generative AI is and how it creates useful text, code, and content.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Understanding Large Language Models",
+            "description": "Explore how LLMs interpret context, generate responses, and support everyday work.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-3",
+            "title": "AI Use Cases",
+            "description": "Identify practical AI use cases across research, writing, coding, analysis, and operations.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Prompt Engineering Fundamentals",
+        "description": "Learn the core building blocks of effective prompts.",
+        "lessons": [
+          {
+            "id": "lesson-4",
+            "title": "Prompt Structure",
+            "description": "Structure prompts with clear goals, context, constraints, and output expectations.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-5",
+            "title": "System vs User Prompts",
+            "description": "Understand how system and user prompts shape AI behavior and responses.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-6",
+            "title": "Zero-shot, One-shot & Few-shot Prompting",
+            "description": "Use examples and instructions to guide model outputs for different task types.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-3",
+        "title": "Advanced Prompting",
+        "description": "Apply advanced techniques for more reliable AI results.",
+        "lessons": [
+          {
+            "id": "lesson-7",
+            "title": "Chain of Thought",
+            "description": "Guide models through step-by-step reasoning when tasks require careful analysis.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-8",
+            "title": "Role Prompting",
+            "description": "Use role-based instructions to match tone, expertise, and task expectations.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-9",
+            "title": "Context Engineering",
+            "description": "Provide the right background, source material, and constraints for stronger outputs.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-10",
+            "title": "Prompt Templates",
+            "description": "Create reusable prompt templates for repeated tasks and consistent results.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-4",
+        "title": "AI Productivity",
+        "description": "Use AI to accelerate everyday professional work.",
+        "lessons": [
+          {
+            "id": "lesson-11",
+            "title": "Research",
+            "description": "Use AI to plan research, summarize findings, and compare information efficiently.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-12",
+            "title": "Content Creation",
+            "description": "Draft, revise, and adapt content while keeping quality and audience needs in focus.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-13",
+            "title": "Coding Assistance",
+            "description": "Use AI for code explanation, debugging support, and implementation planning.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-14",
+            "title": "Data Analysis",
+            "description": "Prompt AI to inspect data, explain patterns, and produce useful analytical summaries.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-5",
+        "title": "AI Automation",
+        "description": "Organize prompts and workflows for repeatable automation.",
+        "lessons": [
+          {
+            "id": "lesson-15",
+            "title": "AI Workflows",
+            "description": "Design multi-step workflows that combine prompts, review, and iteration.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-16",
+            "title": "Prompt Libraries",
+            "description": "Organize reusable prompts by task, audience, variables, and quality checks.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-17",
+            "title": "AI Agents Basics",
+            "description": "Understand the basics of AI agents, tool use, and human oversight.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-6",
+        "title": "Final Project",
+        "description": "Apply prompt engineering skills to a practical business scenario.",
+        "lessons": [
+          {
+            "id": "lesson-18",
+            "title": "Build a Prompt Library",
+            "description": "Create a practical prompt library with templates for common professional tasks.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-19",
+            "title": "Solve Real Business Problems using AI",
+            "description": "Use AI prompts and workflows to solve realistic business problems from start to finish.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
   }
 ];
 let courses = fallbackCourses;
