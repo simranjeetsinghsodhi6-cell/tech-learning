@@ -49,15 +49,15 @@ const fallbackCourses = [
             "id": "lesson-1",
             "title": "HTML foundations",
             "description": "Write meaningful page structure with headings, landmarks, and reusable content sections.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-2",
             "title": "CSS layout practice",
             "description": "Use modern CSS spacing, grid, and responsive rules to adapt the course project.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       },
@@ -70,15 +70,15 @@ const fallbackCourses = [
             "id": "lesson-3",
             "title": "Publish the page",
             "description": "Review accessibility checks and prepare the finished landing page for sharing.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-4",
             "title": "Practice review",
             "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       }
@@ -109,15 +109,15 @@ const fallbackCourses = [
             "id": "lesson-1",
             "title": "DOM selection basics",
             "description": "Connect JavaScript to visible interface elements and read useful browser state.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-2",
             "title": "Events and UI state",
             "description": "Respond to user actions and keep interface state predictable.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       },
@@ -130,15 +130,15 @@ const fallbackCourses = [
             "id": "lesson-3",
             "title": "Debugging workflow",
             "description": "Use browser developer tools to inspect errors and verify interaction behavior.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-4",
             "title": "Practice review",
             "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       }
@@ -169,15 +169,15 @@ const fallbackCourses = [
             "id": "lesson-1",
             "title": "Git commit routine",
             "description": "Create small commits that document each step of project progress.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-2",
             "title": "Branch and pull request flow",
             "description": "Practice a safe collaboration workflow with branches and review notes.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       },
@@ -190,15 +190,15 @@ const fallbackCourses = [
             "id": "lesson-3",
             "title": "Deploy with Pages",
             "description": "Publish a static project and validate the public GitHub Pages URL.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-4",
             "title": "Practice review",
             "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       }
@@ -229,15 +229,15 @@ const fallbackCourses = [
             "id": "lesson-1",
             "title": "Project scope map",
             "description": "Define audience, goals, sections, and success criteria before building.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-2",
             "title": "Polish pass",
             "description": "Improve copy, hierarchy, interactions, and responsive presentation.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       },
@@ -250,15 +250,15 @@ const fallbackCourses = [
             "id": "lesson-3",
             "title": "Launch checklist",
             "description": "Package the project with final QA, README notes, and sharing steps.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           },
           {
             "id": "lesson-4",
             "title": "Practice review",
             "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
-            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            "notesUrl": "./sample-notes.pdf"
+            "videoUrl": "",
+            "notesUrl": ""
           }
         ]
       }
@@ -564,6 +564,15 @@ function renderLessonPanel(course, lesson) {
   const progressLabel = `${progress.completed} of ${progress.total} lessons completed`;
   const lessonKey = `${course.id}:${lesson.id}`;
   const isComplete = Boolean(completedLessons[lessonKey]);
+  const videoContent = lesson.videoUrl
+    ? `<iframe src="${escapeHtml(lesson.videoUrl)}" title="${escapeHtml(lesson.title)} video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+    : '<div class="lesson-placeholder" role="status">Content will be added soon.</div>';
+  const notesContent = lesson.notesUrl
+    ? `<iframe src="${escapeHtml(lesson.notesUrl)}" title="${escapeHtml(lesson.title)} handwritten notes" loading="lazy"></iframe>`
+    : '<div class="lesson-placeholder" role="status">Content will be added soon.</div>';
+  const notesAction = lesson.notesUrl
+    ? `<a class="button secondary magnetic" href="${escapeHtml(lesson.notesUrl)}" download>Download Notes</a>`
+    : '<button class="button secondary magnetic" type="button" disabled>Download Notes</button>';
   return `
     <article class="course-lesson-panel">
       <div class="lesson-progress" aria-label="Lesson progress">
@@ -571,17 +580,17 @@ function renderLessonPanel(course, lesson) {
         <div class="progress-card"><span style="width: ${progress.percent}%"></span></div>
       </div>
       <div class="lesson-video">
-        <iframe src="${escapeHtml(lesson.videoUrl)}" title="${escapeHtml(lesson.title)} video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        ${videoContent}
       </div>
       <p class="eyebrow">${escapeHtml(lesson.moduleTitle || 'Lesson')}</p>
       <h3>${escapeHtml(lesson.title)}</h3>
       <p>${escapeHtml(lesson.description)}</p>
       <div class="lesson-notes">
         <h3>Handwritten notes</h3>
-        <iframe src="${escapeHtml(lesson.notesUrl)}" title="${escapeHtml(lesson.title)} handwritten notes" loading="lazy"></iframe>
+        ${notesContent}
       </div>
       <div class="lesson-actions">
-        <a class="button secondary magnetic" href="${escapeHtml(lesson.notesUrl)}" download>Download Notes</a>
+        ${notesAction}
         <button class="button primary magnetic" type="button" data-complete-lesson="${escapeHtml(lesson.id)}">${isComplete ? 'Completed ✓' : 'Mark as Completed'} <span>→</span></button>
       </div>
     </article>
