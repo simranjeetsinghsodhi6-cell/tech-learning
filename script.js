@@ -17,6 +17,11 @@ const courseEmpty = document.querySelector('#course-empty');
 const courseDetailCard = document.querySelector('#course-detail-card');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const supabaseConfig = {
+  url: window.TECH_LEARNING_SUPABASE_URL || '',
+  anonKey: window.TECH_LEARNING_SUPABASE_ANON_KEY || '',
+};
+
 const fallbackCourses = [
   { id: 'web-fundamentals-bootcamp', category: 'Web', thumbnail: '🌐', title: 'Web Fundamentals Bootcamp', description: 'Build accessible pages with semantic HTML, modern CSS, and responsive layouts.', instructor: 'Maya Chen', duration: '6 hours', difficulty: 'Beginner', price: 'Free', outcomes: ['Structure pages with semantic HTML', 'Create responsive CSS layouts', 'Publish a polished landing page'] },
   { id: 'javascript-ui-essentials', category: 'JavaScript', thumbnail: '⚡', title: 'JavaScript UI Essentials', description: 'Practice DOM events, state, browser debugging, and delightful interactive patterns.', instructor: 'Jordan Lee', duration: '8 hours', difficulty: 'Beginner', price: '$29', outcomes: ['Handle user events confidently', 'Update UI from reusable data', 'Debug common browser issues'] },
@@ -24,6 +29,7 @@ const fallbackCourses = [
   { id: 'portfolio-project-lab', category: 'Projects', thumbnail: '💼', title: 'Portfolio Project Lab', description: 'Turn lessons into a professional portfolio piece with copy, polish, and launch checks.', instructor: 'Alex Rivera', duration: '10 hours', difficulty: 'Intermediate', price: '$49', outcomes: ['Plan a portfolio-ready project', 'Polish interactions and content', 'Prepare a launch checklist'] },
 ];
 let courses = fallbackCourses;
+let categories = [];
 let activeCategory = 'All';
 
 const getPreferredTheme = () => localStorage.getItem(storageKey) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -233,8 +239,9 @@ function createCourseCard(course) {
 
 function renderCourseFilters() {
   if (!courseFilters) return;
-  const categories = ['All', ...new Set(courses.map((course) => course.category))];
-  courseFilters.innerHTML = categories.map((category) => `<button class="course-filter${category === activeCategory ? ' active' : ''}" type="button" data-category="${category}">${category}</button>`).join('');
+  const categoryNames = categories.length > 0 ? categories.map((category) => category.name) : [...new Set(courses.map((course) => course.category))];
+  const filterNames = ['All', ...categoryNames];
+  courseFilters.innerHTML = filterNames.map((category) => `<button class="course-filter${category === activeCategory ? ' active' : ''}" type="button" data-category="${category}">${category}</button>`).join('');
   courseFilters.querySelectorAll('.course-filter').forEach((button) => {
     button.addEventListener('click', () => {
       activeCategory = button.dataset.category || 'All';
@@ -297,17 +304,58 @@ function handleCourseRoute() {
   if (!renderCourseDetail(match[1])) window.location.hash = '#courses';
 }
 
+
+function mapSupabaseCourse(course) {
+  return {
+    id: course.slug || course.id,
+    category: course.categories?.name || course.category || 'General',
+    thumbnail: course.thumbnail || '📚',
+    title: course.title,
+    description: course.description,
+    instructor: course.instructor,
+    duration: course.duration,
+    difficulty: course.difficulty,
+    price: course.price,
+    outcomes: Array.isArray(course.outcomes) ? course.outcomes : [],
+  };
+}
+
+async function fetchSupabaseTable(table, query = 'select=*') {
+  if (!supabaseConfig.url || !supabaseConfig.anonKey) return null;
+  const endpoint = `${supabaseConfig.url.replace(/\/$/, '')}/rest/v1/${table}?${query}`;
+  const response = await fetch(endpoint, {
+    headers: {
+      apikey: supabaseConfig.anonKey,
+      Authorization: `Bearer ${supabaseConfig.anonKey}`,
+    },
+  });
+  if (!response.ok) throw new Error(`Unable to fetch ${table}`);
+  return response.json();
+}
+
 async function loadCourses() {
   try {
-    const response = await fetch('./courses.json');
-    if (response.ok) courses = await response.json();
+    const [remoteCategories, remoteCourses] = await Promise.all([
+      fetchSupabaseTable('categories', 'select=id,name,slug&order=name.asc'),
+      fetchSupabaseTable('courses', 'select=id,slug,title,description,instructor,duration,difficulty,price,thumbnail,outcomes,categories(name)&order=created_at.desc'),
+    ]);
+
+    if (remoteCourses?.length) {
+      categories = remoteCategories || [];
+      courses = remoteCourses.map(mapSupabaseCourse);
+    } else {
+      const response = await fetch('./courses.json');
+      if (response.ok) courses = await response.json();
+    }
   } catch (error) {
+    console.warn('Using bundled course data because the remote course store is unavailable.', error);
     courses = fallbackCourses;
   }
   renderCourseFilters();
   renderCourses();
   handleCourseRoute();
 }
+
 
 courseSearch?.addEventListener('input', renderCourses);
 window.addEventListener('hashchange', handleCourseRoute);
