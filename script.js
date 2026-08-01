@@ -1357,6 +1357,7 @@ function renderCourseDetail(courseId, requestedLessonId = '') {
     completedLessons[`${course.id}:${lesson.id}`] = true;
     persistLessonProgress();
     renderCourseDetail(course.id, lesson.id);
+    renderCertificates();
   });
   courseDetailsSection.hidden = false;
   coursesSection.hidden = true;
@@ -1374,9 +1375,113 @@ function showHomeSections() {
   if (courseDetailsSection) courseDetailsSection.hidden = true;
 }
 
+
+function getCourseCompletionDate(course) {
+  const progress = getCourseProgress(course);
+  const completedByLessons = progress.total > 0 && progress.completed === progress.total;
+  const completedEnrollment = enrollments.find((enrollment) => enrollment.courseId === course.id && enrollment.status === 'completed');
+  if (!completedByLessons && !completedEnrollment) return '';
+
+  const completionDatesKey = 'tech-learning-course-completion-dates';
+  let completionDates = {};
+  try {
+    completionDates = JSON.parse(localStorage.getItem(completionDatesKey)) || {};
+  } catch (error) {
+    completionDates = {};
+  }
+
+  if (!completionDates[course.id]) {
+    const enrollmentTimestamp = Number(String(completedEnrollment?.id || '').replace(/\D/g, ''));
+    const completionDate = enrollmentTimestamp ? new Date(enrollmentTimestamp) : new Date();
+    completionDates[course.id] = completionDate.toISOString();
+    localStorage.setItem(completionDatesKey, JSON.stringify(completionDates));
+  }
+  return completionDates[course.id];
+}
+
+function formatCertificateDate(value) {
+  if (!value) return 'Pending completion';
+  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(value));
+}
+
+function getCertificateStudentName(course) {
+  const completedEnrollment = enrollments.find((enrollment) => enrollment.courseId === course.id && enrollment.status === 'completed' && enrollment.name);
+  return completedEnrollment?.name || localStorage.getItem('tech-learning-student-name') || 'Tech Learning Student';
+}
+
+function getCertificateId(course) {
+  let hash = 0;
+  [...course.id].forEach((char) => { hash = ((hash << 5) - hash) + char.charCodeAt(0); hash |= 0; });
+  return `TL-${Math.abs(hash).toString(36).toUpperCase().padStart(6, '0')}`;
+}
+
+function getCertificate(course) {
+  const completionDate = getCourseCompletionDate(course);
+  if (!completionDate) return null;
+  const certificateId = getCertificateId(course);
+  return {
+    course,
+    studentName: getCertificateStudentName(course),
+    courseName: course.title,
+    certificateId,
+    completionDate,
+    instructorName: course.instructor || 'Tech Learning',
+    verificationId: `VERIFY-${certificateId}`,
+  };
+}
+
+function renderCertificateDocument(certificate) {
+  const issuedDate = formatCertificateDate(certificate.completionDate);
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(certificate.courseName)} Certificate</title><style>body{font-family:Inter,Arial,sans-serif;margin:0;padding:3rem;background:#f8fafc;color:#0f172a}.certificate{max-width:900px;margin:auto;padding:4rem;border:12px solid #2563eb;background:white;text-align:center}.eyebrow{letter-spacing:.16em;text-transform:uppercase;color:#2563eb;font-weight:800}.name{font-size:3rem;margin:1rem 0}.course{font-size:2rem}.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem;text-align:left}.box{border:1px solid #dbe4f0;border-radius:1rem;padding:1rem}.qr{font-size:3rem}@media print{body{background:white}.certificate{border-color:#2563eb}}</style></head><body><main class="certificate"><p class="eyebrow">Certificate of Completion</p><h1 class="name">${escapeHtml(certificate.studentName)}</h1><p>has successfully completed</p><h2 class="course">${escapeHtml(certificate.courseName)}</h2><div class="meta"><div class="box"><strong>Certificate ID</strong><br>${escapeHtml(certificate.certificateId)}</div><div class="box"><strong>Date of Completion</strong><br>${escapeHtml(issuedDate)}</div><div class="box"><strong>Instructor / Platform</strong><br>${escapeHtml(certificate.instructorName)} / Tech Learning</div><div class="box"><strong>Verification</strong><br><span class="qr">▦</span><br>${escapeHtml(certificate.verificationId)}</div></div></main></body></html>`;
+}
+
+function openCertificate(courseId, download = false) {
+  const certificate = getCertificate(courses.find((course) => course.id === courseId) || {});
+  if (!certificate) return;
+  const documentHtml = renderCertificateDocument(certificate);
+  if (download) {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(new Blob([documentHtml], { type: 'text/html' }));
+    link.download = `${certificate.course.id}-certificate.html`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    return;
+  }
+  const certificateWindow = window.open('', '_blank');
+  if (!certificateWindow) return;
+  certificateWindow.document.write(documentHtml);
+  certificateWindow.document.close();
+}
+
+function renderCertificates() {
+  const certificateGrid = certificatesSection?.querySelector('.certificate-grid');
+  if (!certificateGrid) return;
+  const certificates = courses.map(getCertificate).filter(Boolean);
+  certificateGrid.innerHTML = certificates.length ? certificates.map((certificate, index) => `
+    <article class="card certificate-card tilt-card reveal slide-up">
+      <div class="certificate-card-header">
+        <span class="icon" aria-hidden="true">${['🏅', '📜', '🎓'][index % 3]}</span>
+        <span class="course-price">Completed</span>
+      </div>
+      <h3>${escapeHtml(certificate.courseName)} Certificate</h3>
+      <dl class="certificate-details">
+        <div><dt>Course Name</dt><dd>${escapeHtml(certificate.courseName)}</dd></div>
+        <div><dt>Issue Date</dt><dd>${escapeHtml(formatCertificateDate(certificate.completionDate))}</dd></div>
+      </dl>
+      <div class="certificate-actions">
+        <button class="button primary magnetic" type="button" data-view-certificate="${escapeHtml(certificate.course.id)}">View Certificate <span>→</span></button>
+        <button class="button secondary magnetic" type="button" data-download-certificate="${escapeHtml(certificate.course.id)}">Download Certificate</button>
+      </div>
+    </article>
+  `).join('') : '<p class="empty-state">Complete a course to unlock your certificates.</p>';
+  certificateGrid.querySelectorAll('[data-view-certificate]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.viewCertificate)));
+  certificateGrid.querySelectorAll('[data-download-certificate]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.downloadCertificate, true)));
+}
+
 function showCertificatesPage() {
   if (!certificatesSection) return;
   document.querySelectorAll('main > *').forEach((element) => { element.hidden = element !== certificatesSection; });
+  renderCertificates();
   certificatesSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
   observeRevealElements(certificatesSection);
   enableTilt(certificatesSection);
@@ -1453,6 +1558,7 @@ async function loadCourses() {
   loadAdminState();
   renderCourseFilters();
   renderCourses();
+  renderCertificates();
   handleCourseRoute();
 }
 
@@ -1584,7 +1690,7 @@ function deleteAdminCourse(courseId) {
   enrollments = enrollments.filter((item) => item.courseId !== courseId);
   persistAdminCourses();
   persistEnrollments();
-  renderCourseFilters(); renderCourses(); renderAdminDashboard(); resetAdminForm();
+  renderCourseFilters(); renderCourses(); renderCertificates(); renderAdminDashboard(); resetAdminForm();
 }
 
 function renderAdminDashboard() {
@@ -1644,7 +1750,7 @@ adminCourseForm?.addEventListener('submit', (event) => {
   if (existingIndex >= 0) courses[existingIndex] = course;
   else courses.unshift(course);
   persistAdminCourses();
-  renderCourseFilters(); renderCourses(); renderAdminDashboard(); resetAdminForm();
+  renderCourseFilters(); renderCourses(); renderCertificates(); renderAdminDashboard(); resetAdminForm();
   setAdminMessage(adminSaveMessage, 'Course saved locally.');
 });
 
@@ -1660,6 +1766,7 @@ adminEnrollmentForm?.addEventListener('submit', (event) => {
   persistEnrollments();
   adminEnrollmentForm.reset();
   renderAdminDashboard();
+  renderCertificates();
 });
 
 
