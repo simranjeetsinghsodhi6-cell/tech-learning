@@ -1,0 +1,50 @@
+[
+  {
+    "id": "web-fundamentals-bootcamp",
+    "category": "Web",
+    "thumbnail": "🌐",
+    "title": "Web Fundamentals Bootcamp",
+    "description": "Build accessible pages with semantic HTML, modern CSS, and responsive layouts.",
+    "instructor": "Maya Chen",
+    "duration": "6 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": ["Structure pages with semantic HTML", "Create responsive CSS layouts", "Publish a polished landing page"]
+  },
+  {
+    "id": "javascript-ui-essentials",
+    "category": "JavaScript",
+    "thumbnail": "⚡",
+    "title": "JavaScript UI Essentials",
+    "description": "Practice DOM events, state, browser debugging, and delightful interactive patterns.",
+    "instructor": "Jordan Lee",
+    "duration": "8 hours",
+    "difficulty": "Beginner",
+    "price": "$29",
+    "outcomes": ["Handle user events confidently", "Update UI from reusable data", "Debug common browser issues"]
+  },
+  {
+    "id": "github-pages-launch",
+    "category": "GitHub",
+    "thumbnail": "🚀",
+    "title": "GitHub Pages Launch",
+    "description": "Learn commits, branches, pull requests, and a repeatable GitHub Pages workflow.",
+    "instructor": "Priya Sharma",
+    "duration": "5 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": ["Track work with Git commits", "Collaborate with pull requests", "Deploy a project site"]
+  },
+  {
+    "id": "portfolio-project-lab",
+    "category": "Projects",
+    "thumbnail": "💼",
+    "title": "Portfolio Project Lab",
+    "description": "Turn lessons into a professional portfolio piece with copy, polish, and launch checks.",
+    "instructor": "Alex Rivera",
+    "duration": "10 hours",
+    "difficulty": "Intermediate",
+    "price": "$49",
+    "outcomes": ["Plan a portfolio-ready project", "Polish interactions and content", "Prepare a launch checklist"]
+  }
+]
