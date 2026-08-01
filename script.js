@@ -8,8 +8,23 @@ const themeIcon = document.querySelector('.theme-icon');
 const menuToggle = document.querySelector('.menu-toggle');
 const navMenu = document.querySelector('#nav-menu');
 const loader = document.querySelector('.loader');
+const coursesSection = document.querySelector('#courses');
+const courseDetailsSection = document.querySelector('#course-details');
+const courseList = document.querySelector('#course-list');
+const courseSearch = document.querySelector('#course-search');
+const courseFilters = document.querySelector('#course-filters');
+const courseEmpty = document.querySelector('#course-empty');
+const courseDetailCard = document.querySelector('#course-detail-card');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const fallbackCourses = [
+  { id: 'web-fundamentals-bootcamp', category: 'Web', thumbnail: '🌐', title: 'Web Fundamentals Bootcamp', description: 'Build accessible pages with semantic HTML, modern CSS, and responsive layouts.', instructor: 'Maya Chen', duration: '6 hours', difficulty: 'Beginner', price: 'Free', outcomes: ['Structure pages with semantic HTML', 'Create responsive CSS layouts', 'Publish a polished landing page'] },
+  { id: 'javascript-ui-essentials', category: 'JavaScript', thumbnail: '⚡', title: 'JavaScript UI Essentials', description: 'Practice DOM events, state, browser debugging, and delightful interactive patterns.', instructor: 'Jordan Lee', duration: '8 hours', difficulty: 'Beginner', price: '$29', outcomes: ['Handle user events confidently', 'Update UI from reusable data', 'Debug common browser issues'] },
+  { id: 'github-pages-launch', category: 'GitHub', thumbnail: '🚀', title: 'GitHub Pages Launch', description: 'Learn commits, branches, pull requests, and a repeatable GitHub Pages workflow.', instructor: 'Priya Sharma', duration: '5 hours', difficulty: 'Beginner', price: 'Free', outcomes: ['Track work with Git commits', 'Collaborate with pull requests', 'Deploy a project site'] },
+  { id: 'portfolio-project-lab', category: 'Projects', thumbnail: '💼', title: 'Portfolio Project Lab', description: 'Turn lessons into a professional portfolio piece with copy, polish, and launch checks.', instructor: 'Alex Rivera', duration: '10 hours', difficulty: 'Intermediate', price: '$49', outcomes: ['Plan a portfolio-ready project', 'Polish interactions and content', 'Prepare a launch checklist'] },
+];
+let courses = fallbackCourses;
+let activeCategory = 'All';
 
 const getPreferredTheme = () => localStorage.getItem(storageKey) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
@@ -38,7 +53,18 @@ menuToggle?.addEventListener('click', () => {
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener('click', (event) => {
-    const target = document.querySelector(link.getAttribute('href'));
+    const href = link.getAttribute('href') || '';
+    if (href.startsWith('#course/')) {
+      navMenu?.classList.remove('open');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    if (href === '#courses' && courseDetailsSection && !courseDetailsSection.hidden) {
+      navMenu?.classList.remove('open');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const target = document.getElementById(href.slice(1));
     navMenu?.classList.remove('open');
     menuToggle?.setAttribute('aria-expanded', 'false');
     if (!target || motionQuery.matches) return;
@@ -74,7 +100,10 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
   });
 }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
 
-document.querySelectorAll('.reveal, [data-counter]').forEach((element) => revealObserver.observe(element));
+function observeRevealElements(scope = document) {
+  scope.querySelectorAll('.reveal, [data-counter]').forEach((element) => revealObserver.observe(element));
+}
+observeRevealElements();
 
 const timelineItems = document.querySelectorAll('.timeline-item');
 const timelineDetail = document.querySelector('.timeline-detail');
@@ -129,8 +158,11 @@ window.addEventListener('pointermove', (event) => {
 }, { passive: true });
 requestFrame();
 
-if (canHover && !motionQuery.matches) {
-  document.querySelectorAll('.tilt-card').forEach((card) => {
+function enableTilt(scope = document) {
+  if (!canHover || motionQuery.matches) return;
+  scope.querySelectorAll('.tilt-card').forEach((card) => {
+    if (card.dataset.tiltReady) return;
+    card.dataset.tiltReady = 'true';
     card.addEventListener('pointermove', (event) => {
       const rect = card.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width - 0.5) * 9;
@@ -141,6 +173,10 @@ if (canHover && !motionQuery.matches) {
       card.style.transform = '';
     });
   });
+}
+
+if (canHover && !motionQuery.matches) {
+  enableTilt();
 
   document.querySelectorAll('.magnetic').forEach((button) => {
     button.addEventListener('pointermove', (event) => {
@@ -155,7 +191,10 @@ if (canHover && !motionQuery.matches) {
   });
 }
 
-document.querySelectorAll('.button, .timeline-item, summary, .theme-toggle, .menu-toggle, .nav-links a, .social-links a').forEach((element) => {
+function enableRipple(scope = document) {
+  scope.querySelectorAll('.button, .timeline-item, summary, .theme-toggle, .menu-toggle, .nav-links a, .social-links a, .course-filter').forEach((element) => {
+    if (element.dataset.rippleReady) return;
+    element.dataset.rippleReady = 'true';
   element.addEventListener('click', (event) => {
     if (motionQuery.matches) return;
     const rect = element.getBoundingClientRect();
@@ -167,3 +206,109 @@ document.querySelectorAll('.button, .timeline-item, summary, .theme-toggle, .men
     ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
   });
 });
+}
+enableRipple();
+
+function getCourseHref(course) {
+  return `#course/${course.id}`;
+}
+
+function createCourseCard(course) {
+  return `
+    <article class="card course-card tilt-card reveal slide-up">
+      <div class="course-thumb" aria-hidden="true">${course.thumbnail}</div>
+      <div class="course-meta"><span>${course.category}</span><span>${course.duration}</span><span>${course.difficulty}</span></div>
+      <div>
+        <h3>${course.title}</h3>
+        <p>${course.description}</p>
+        <p class="course-instructor">Instructor: ${course.instructor}</p>
+      </div>
+      <div class="course-card-footer">
+        <span class="course-price">${course.price}</span>
+        <a class="button primary magnetic" href="${getCourseHref(course)}">Enroll <span>→</span></a>
+      </div>
+    </article>
+  `;
+}
+
+function renderCourseFilters() {
+  if (!courseFilters) return;
+  const categories = ['All', ...new Set(courses.map((course) => course.category))];
+  courseFilters.innerHTML = categories.map((category) => `<button class="course-filter${category === activeCategory ? ' active' : ''}" type="button" data-category="${category}">${category}</button>`).join('');
+  courseFilters.querySelectorAll('.course-filter').forEach((button) => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.category || 'All';
+      renderCourseFilters();
+      renderCourses();
+    });
+  });
+  enableRipple(courseFilters);
+}
+
+function getFilteredCourses() {
+  const query = (courseSearch?.value || '').trim().toLowerCase();
+  return courses.filter((course) => {
+    const matchesCategory = activeCategory === 'All' || course.category === activeCategory;
+    const haystack = `${course.title} ${course.description} ${course.instructor} ${course.category} ${course.difficulty}`.toLowerCase();
+    return matchesCategory && haystack.includes(query);
+  });
+}
+
+function renderCourses() {
+  if (!courseList) return;
+  const filteredCourses = getFilteredCourses();
+  courseList.innerHTML = filteredCourses.map(createCourseCard).join('');
+  if (courseEmpty) courseEmpty.hidden = filteredCourses.length > 0;
+  observeRevealElements(courseList);
+  enableTilt(courseList);
+  enableRipple(courseList);
+}
+
+function renderCourseDetail(courseId) {
+  const course = courses.find((item) => item.id === courseId);
+  if (!course || !courseDetailCard) return false;
+  courseDetailCard.innerHTML = `
+    <div class="course-thumb" aria-hidden="true">${course.thumbnail}</div>
+    <div>
+      <p class="eyebrow">${course.category} course</p>
+      <h2>${course.title}</h2>
+      <p>${course.description}</p>
+      <div class="course-meta"><span>${course.instructor}</span><span>${course.duration}</span><span>${course.difficulty}</span><span>${course.price}</span></div>
+      <ul class="course-outcomes">${course.outcomes.map((outcome) => `<li>${outcome}</li>`).join('')}</ul>
+      <a class="button primary magnetic" href="#courses">Enroll now <span>→</span></a>
+    </div>
+  `;
+  courseDetailsSection.hidden = false;
+  coursesSection.hidden = true;
+  courseDetailsSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
+  observeRevealElements(courseDetailsSection);
+  enableTilt(courseDetailsSection);
+  enableRipple(courseDetailsSection);
+  return true;
+}
+
+function handleCourseRoute() {
+  const match = window.location.hash.match(/^#course\/(.+)$/);
+  if (!match) {
+    if (coursesSection) coursesSection.hidden = false;
+    if (courseDetailsSection) courseDetailsSection.hidden = true;
+    return;
+  }
+  if (!renderCourseDetail(match[1])) window.location.hash = '#courses';
+}
+
+async function loadCourses() {
+  try {
+    const response = await fetch('./courses.json');
+    if (response.ok) courses = await response.json();
+  } catch (error) {
+    courses = fallbackCourses;
+  }
+  renderCourseFilters();
+  renderCourses();
+  handleCourseRoute();
+}
+
+courseSearch?.addEventListener('input', renderCourses);
+window.addEventListener('hashchange', handleCourseRoute);
+loadCourses();

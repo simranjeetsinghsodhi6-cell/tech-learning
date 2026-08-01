@@ -45,6 +45,7 @@
 
         <div class="nav-links" id="nav-menu">
           <a href="#paths">Paths</a>
+          <a href="#courses">Courses</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#projects">Projects</a>
           <a href="#testimonials">Stories</a>
@@ -109,6 +110,28 @@
           <article class="card tilt-card reveal slide-up"><span class="icon">{ }</span><h3>JavaScript Basics</h3><p>Learn variables, functions, DOM events, browser debugging, and UI state.</p></article>
           <article class="card tilt-card reveal slide-up"><span class="icon">⎇</span><h3>Git & GitHub</h3><p>Practice commits, branches, pull requests, and GitHub Pages deployment.</p></article>
         </div>
+      </section>
+
+      <section id="courses" class="section section-shell">
+        <div class="section-heading reveal fade-up">
+          <p class="eyebrow">Courses</p>
+          <h2>Explore focused courses for your next learning goal.</h2>
+          <p>Search by topic or filter by category while keeping your path beginner friendly and practical.</p>
+        </div>
+        <div class="course-toolbar reveal fade-up" aria-label="Course search and filters">
+          <label class="course-search">
+            <span class="sr-only">Search courses</span>
+            <input id="course-search" type="search" placeholder="Search courses, instructors, or skills" autocomplete="off" />
+          </label>
+          <div class="course-filters" id="course-filters" aria-label="Course categories"></div>
+        </div>
+        <div class="grid course-grid" id="course-list" aria-live="polite"></div>
+        <p class="empty-state" id="course-empty" hidden>No courses match your search yet. Try a different keyword or category.</p>
+      </section>
+
+      <section id="course-details" class="section section-shell course-details" hidden>
+        <a class="button secondary magnetic course-back" href="#courses">← Back to courses</a>
+        <div class="course-detail-card hero-card tilt-card reveal scale-in" id="course-detail-card" aria-live="polite"></div>
       </section>
 
       <div class="section-divider flip" aria-hidden="true"><svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0 45 C220 108 380 -8 600 45 S980 108 1200 45"/></svg></div>
