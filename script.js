@@ -16,6 +16,7 @@ const courseSearch = document.querySelector('#course-search');
 const courseFilters = document.querySelector('#course-filters');
 const courseEmpty = document.querySelector('#course-empty');
 const courseDetailCard = document.querySelector('#course-detail-card');
+const certificatesSection = document.querySelector('#certificates');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const supabaseConfig = {
@@ -1032,7 +1033,7 @@ menuToggle?.addEventListener('click', () => {
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener('click', (event) => {
     const href = link.getAttribute('href') || '';
-    if (href.startsWith('#course/')) {
+    if (href.startsWith('#course/') || href === '#certificates' || href === '#top') {
       navMenu?.classList.remove('open');
       menuToggle?.setAttribute('aria-expanded', 'false');
       return;
@@ -1366,18 +1367,38 @@ function renderCourseDetail(courseId, requestedLessonId = '') {
   return true;
 }
 
+function showHomeSections() {
+  document.querySelectorAll('main > *').forEach((element) => { element.hidden = false; });
+  if (adminSection) adminSection.hidden = true;
+  if (certificatesSection) certificatesSection.hidden = true;
+  if (courseDetailsSection) courseDetailsSection.hidden = true;
+}
+
+function showCertificatesPage() {
+  if (!certificatesSection) return;
+  document.querySelectorAll('main > *').forEach((element) => { element.hidden = element !== certificatesSection; });
+  certificatesSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
+  observeRevealElements(certificatesSection);
+  enableTilt(certificatesSection);
+  enableRipple(certificatesSection);
+}
+
 function handleCourseRoute() {
   if (window.location.hash === '#admin') {
     showAdminDashboard();
     return;
   }
   hideAdminDashboard();
-  const match = window.location.hash.match(/^#course\/([^/]+)(?:\/(.+))?$/);
-  if (!match) {
-    if (coursesSection) coursesSection.hidden = false;
-    if (courseDetailsSection) courseDetailsSection.hidden = true;
+  if (window.location.hash === '#certificates') {
+    showCertificatesPage();
     return;
   }
+  const match = window.location.hash.match(/^#course\/([^/]+)(?:\/(.+))?$/);
+  if (!match) {
+    showHomeSections();
+    return;
+  }
+  showHomeSections();
   if (!renderCourseDetail(match[1], match[2] || selectedLessonId)) window.location.hash = '#courses';
 }
 

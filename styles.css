@@ -290,3 +290,15 @@ body.is-transitioning main, body.is-transitioning footer { animation: pageIn .75
 .lesson-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; }
 .lesson-actions .button:disabled { cursor: not-allowed; opacity: .62; }
 @media (max-width: 940px) { .course-detail-summary, .course-learning-layout { grid-template-columns: 1fr; } .course-lesson-sidebar { position: static; } }
+
+.certificates-page { min-height: calc(100vh - 10rem); }
+.certificate-grid { align-items: stretch; }
+.certificate-card { display: flex; flex-direction: column; gap: 1rem; }
+.certificate-card-header, .certificate-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; }
+.certificate-details { display: grid; gap: .8rem; margin: 0; }
+.certificate-details div { padding: .9rem 1rem; border-radius: 1rem; background: rgba(127,127,127,.08); }
+.certificate-details dt { color: var(--brand); font-size: .78rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.certificate-details dd { margin: .2rem 0 0; color: var(--muted); font-weight: 800; }
+.certificate-actions { margin-top: auto; justify-content: flex-start; }
+
+@media (max-width: 720px) { .certificate-actions .button { width: 100%; } }
