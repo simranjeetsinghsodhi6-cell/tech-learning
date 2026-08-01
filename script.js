@@ -263,6 +263,546 @@ const fallbackCourses = [
         ]
       }
     ]
+  },
+  {
+    "id": "artificial-intelligence",
+    "category": "AI",
+    "thumbnail": "🤖",
+    "title": "Artificial Intelligence",
+    "description": "Learn core AI concepts, practical use cases, and responsible workflows for modern tools.",
+    "instructor": "Dr. Neha Kapoor",
+    "duration": "9 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Explain essential AI concepts",
+      "Identify practical AI use cases",
+      "Apply responsible AI practices"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "AI Foundations",
+        "description": "Understand what AI is and where it creates value.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "What is artificial intelligence?",
+            "description": "Explore AI terminology, model types, and common examples in everyday products.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "AI use cases and limits",
+            "description": "Compare useful AI applications with limitations, risks, and human oversight needs.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Practical AI Workflow",
+        "description": "Use AI tools thoughtfully to support real tasks.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Prompting essentials",
+            "description": "Write clear prompts with context, goals, constraints, and evaluation criteria.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Responsible AI review",
+            "description": "Check AI outputs for accuracy, bias, privacy, and safe publishing decisions.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ai-powered-digital-marketing",
+    "category": "Marketing",
+    "thumbnail": "📣",
+    "title": "AI-Powered Digital Marketing",
+    "description": "Use AI tools to plan campaigns, create content, and improve marketing performance.",
+    "instructor": "Aarav Mehta",
+    "duration": "8 hours",
+    "difficulty": "Intermediate",
+    "price": "$39",
+    "outcomes": [
+      "Plan AI-assisted campaigns",
+      "Generate content briefs faster",
+      "Measure and improve campaign output"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "AI Marketing Strategy",
+        "description": "Connect AI assistance with clear marketing goals.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Campaign planning with AI",
+            "description": "Use AI to shape audiences, messages, channels, and campaign calendars.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Customer insights prompts",
+            "description": "Create prompts that summarize customer research and uncover content opportunities.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Content and Optimization",
+        "description": "Apply AI across content creation and measurement.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "AI content production",
+            "description": "Draft ads, emails, posts, and landing page copy with brand and quality controls.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Performance improvement",
+            "description": "Analyze campaign metrics and use AI-assisted experiments to improve results.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "digital-marketing",
+    "category": "Marketing",
+    "thumbnail": "📈",
+    "title": "Digital Marketing",
+    "description": "Build a practical foundation in SEO, social media, email, and analytics.",
+    "instructor": "Sara Williams",
+    "duration": "7 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Understand key digital channels",
+      "Create basic marketing campaigns",
+      "Read core performance metrics"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Marketing Channels",
+        "description": "Learn the core channels used in digital campaigns.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "SEO and content basics",
+            "description": "Understand keywords, search intent, on-page content, and helpful publishing habits.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Social and email fundamentals",
+            "description": "Plan social posts and email campaigns that match audience needs.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Campaign Measurement",
+        "description": "Track results and improve future campaigns.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Analytics essentials",
+            "description": "Read traffic, engagement, conversion, and retention metrics for campaign decisions.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Campaign review",
+            "description": "Summarize results, identify lessons learned, and plan the next improvement cycle.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "python-programming",
+    "category": "Programming",
+    "thumbnail": "🐍",
+    "title": "Python Programming",
+    "description": "Learn Python syntax, data structures, functions, and simple automation projects.",
+    "instructor": "Rohan Patel",
+    "duration": "10 hours",
+    "difficulty": "Beginner",
+    "price": "$29",
+    "outcomes": [
+      "Write Python scripts",
+      "Use core data structures",
+      "Build small automation tasks"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Python Basics",
+        "description": "Start writing clear Python programs.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Syntax and variables",
+            "description": "Practice Python values, variables, operators, input, and output.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Control flow",
+            "description": "Use conditions and loops to make programs respond to different situations.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Build with Python",
+        "description": "Organize logic and solve practical problems.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Functions and data structures",
+            "description": "Work with functions, lists, dictionaries, and reusable problem-solving patterns.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Mini automation project",
+            "description": "Create a small script that processes data and reports useful results.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-excel",
+    "category": "Productivity",
+    "thumbnail": "📊",
+    "title": "MS Excel",
+    "description": "Master spreadsheets, formulas, formatting, charts, and essential data analysis workflows.",
+    "instructor": "Anika Rao",
+    "duration": "6 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Build organized spreadsheets",
+      "Use formulas and functions",
+      "Create charts and summaries"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Excel Foundations",
+        "description": "Create clean, useful spreadsheets.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Workbook navigation",
+            "description": "Use sheets, cells, ranges, formatting, and basic data entry efficiently.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Formulas and functions",
+            "description": "Apply arithmetic, relative references, SUM, AVERAGE, COUNT, and IF functions.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Analyze and Present Data",
+        "description": "Turn spreadsheet data into insights.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Sorting, filtering, and charts",
+            "description": "Organize data and create charts that communicate important patterns.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice dashboard",
+            "description": "Build a simple summary sheet with formulas, formatting, and visuals.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-word",
+    "category": "Productivity",
+    "thumbnail": "📝",
+    "title": "MS Word",
+    "description": "Create polished documents with formatting, styles, tables, references, and review tools.",
+    "instructor": "Emily Carter",
+    "duration": "5 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Format professional documents",
+      "Use styles and tables",
+      "Review and prepare files for sharing"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Document Basics",
+        "description": "Build readable, professional documents.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Text formatting and layout",
+            "description": "Use fonts, spacing, margins, headers, footers, and page setup controls.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Styles and structure",
+            "description": "Apply headings, lists, and styles to keep documents consistent and easy to update.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Professional Word Workflow",
+        "description": "Prepare documents for collaboration and delivery.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Tables and references",
+            "description": "Add tables, links, captions, and simple references for organized content.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Review and export",
+            "description": "Use comments, track changes, spelling checks, and PDF export before sharing.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ms-powerpoint",
+    "category": "Productivity",
+    "thumbnail": "🖥️",
+    "title": "MS PowerPoint",
+    "description": "Design clear presentations with slide structure, visuals, transitions, and delivery practice.",
+    "instructor": "Michael Brown",
+    "duration": "5 hours",
+    "difficulty": "Beginner",
+    "price": "$19",
+    "outcomes": [
+      "Create structured slide decks",
+      "Use visuals effectively",
+      "Prepare confident presentations"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Presentation Foundations",
+        "description": "Plan and build effective slide decks.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Slide structure",
+            "description": "Create title, agenda, content, and closing slides with a clear message.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Visual design basics",
+            "description": "Use images, icons, charts, alignment, and contrast to support the story.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Delivery Ready Decks",
+        "description": "Polish and present with confidence.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Transitions and speaker notes",
+            "description": "Add simple transitions, notes, and timing without distracting from the content.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Presentation rehearsal",
+            "description": "Review flow, practice delivery, and prepare a final shareable deck.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "personality-development",
+    "category": "Career",
+    "thumbnail": "🌟",
+    "title": "Personality Development",
+    "description": "Strengthen communication, confidence, habits, and professional presence.",
+    "instructor": "Kavita Singh",
+    "duration": "6 hours",
+    "difficulty": "Beginner",
+    "price": "Free",
+    "outcomes": [
+      "Communicate with confidence",
+      "Build professional habits",
+      "Improve self-presentation"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Self Awareness and Confidence",
+        "description": "Understand strengths and build a confident mindset.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Personal strengths map",
+            "description": "Identify strengths, improvement areas, values, and personal growth goals.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Confidence habits",
+            "description": "Practice routines for positive body language, mindset, and consistent self-improvement.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Communication and Presence",
+        "description": "Develop professional interpersonal skills.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Effective communication",
+            "description": "Practice listening, clarity, tone, and respectful workplace conversations.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Personal action plan",
+            "description": "Create a practical development plan with measurable weekly habits.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "interview-hacking",
+    "category": "Career",
+    "thumbnail": "🎯",
+    "title": "Interview Hacking",
+    "description": "Prepare strong resumes, answers, practice routines, and follow-up strategies for interviews.",
+    "instructor": "Daniel Kim",
+    "duration": "7 hours",
+    "difficulty": "Intermediate",
+    "price": "$29",
+    "outcomes": [
+      "Prepare targeted interview answers",
+      "Practice common interview formats",
+      "Follow up professionally"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Interview Preparation",
+        "description": "Build a focused plan before the interview.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Resume and role research",
+            "description": "Match your resume, projects, and examples to the target role and company.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-2",
+            "title": "Answer frameworks",
+            "description": "Use STAR and concise storytelling to answer behavioral and experience questions.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Practice and Follow Up",
+        "description": "Improve performance through rehearsal and reflection.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Mock interview practice",
+            "description": "Practice introductions, technical explanations, and common questions under realistic timing.",
+            "videoUrl": "",
+            "notesUrl": ""
+          },
+          {
+            "id": "lesson-4",
+            "title": "Follow-up strategy",
+            "description": "Send thoughtful follow-ups and track lessons learned for future interviews.",
+            "videoUrl": "",
+            "notesUrl": ""
+          }
+        ]
+      }
+    ]
   }
 ];
 let courses = fallbackCourses;
