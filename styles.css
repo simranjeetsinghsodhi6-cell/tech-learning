@@ -280,11 +280,13 @@ body.is-transitioning main, body.is-transitioning footer { animation: pageIn .75
 .lesson-progress { display: grid; gap: .7rem; margin-bottom: 1rem; }
 .lesson-progress strong, .lesson-progress small { display: block; }
 .lesson-progress small { color: var(--muted); font-weight: 800; }
-.lesson-video, .lesson-notes iframe { overflow: hidden; border: 1px solid var(--line); border-radius: 1.25rem; background: rgba(127,127,127,.08); }
+.lesson-video, .lesson-notes iframe, .lesson-notes .lesson-placeholder { overflow: hidden; border: 1px solid var(--line); border-radius: 1.25rem; background: rgba(127,127,127,.08); }
 .lesson-video { position: relative; aspect-ratio: 16 / 9; margin-bottom: 1.2rem; }
 .lesson-video iframe, .lesson-notes iframe { width: 100%; border: 0; }
 .lesson-video iframe { position: absolute; inset: 0; height: 100%; }
+.lesson-placeholder { display: grid; place-items: center; min-height: 100%; padding: 1.5rem; color: var(--muted); font-weight: 900; text-align: center; }
 .lesson-notes { margin-top: 1.2rem; }
-.lesson-notes iframe { min-height: 320px; }
+.lesson-notes iframe, .lesson-notes .lesson-placeholder { min-height: 320px; }
 .lesson-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; }
+.lesson-actions .button:disabled { cursor: not-allowed; opacity: .62; }
 @media (max-width: 940px) { .course-detail-summary, .course-learning-layout { grid-template-columns: 1fr; } .course-lesson-sidebar { position: static; } }
