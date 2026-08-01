@@ -9,7 +9,55 @@
     "duration": "6 hours",
     "difficulty": "Beginner",
     "price": "Free",
-    "outcomes": ["Structure pages with semantic HTML", "Create responsive CSS layouts", "Publish a polished landing page"]
+    "outcomes": [
+      "Structure pages with semantic HTML",
+      "Create responsive CSS layouts",
+      "Publish a polished landing page"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "HTML foundations",
+            "description": "Write meaningful page structure with headings, landmarks, and reusable content sections.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "CSS layout practice",
+            "description": "Use modern CSS spacing, grid, and responsive rules to adapt the course project.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Publish the page",
+            "description": "Review accessibility checks and prepare the finished landing page for sharing.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "javascript-ui-essentials",
@@ -21,7 +69,55 @@
     "duration": "8 hours",
     "difficulty": "Beginner",
     "price": "$29",
-    "outcomes": ["Handle user events confidently", "Update UI from reusable data", "Debug common browser issues"]
+    "outcomes": [
+      "Handle user events confidently",
+      "Update UI from reusable data",
+      "Debug common browser issues"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "DOM selection basics",
+            "description": "Connect JavaScript to visible interface elements and read useful browser state.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Events and UI state",
+            "description": "Respond to user actions and keep interface state predictable.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Debugging workflow",
+            "description": "Use browser developer tools to inspect errors and verify interaction behavior.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "github-pages-launch",
@@ -33,7 +129,55 @@
     "duration": "5 hours",
     "difficulty": "Beginner",
     "price": "Free",
-    "outcomes": ["Track work with Git commits", "Collaborate with pull requests", "Deploy a project site"]
+    "outcomes": [
+      "Track work with Git commits",
+      "Collaborate with pull requests",
+      "Deploy a project site"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Git commit routine",
+            "description": "Create small commits that document each step of project progress.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Branch and pull request flow",
+            "description": "Practice a safe collaboration workflow with branches and review notes.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Deploy with Pages",
+            "description": "Publish a static project and validate the public GitHub Pages URL.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "portfolio-project-lab",
@@ -45,6 +189,54 @@
     "duration": "10 hours",
     "difficulty": "Intermediate",
     "price": "$49",
-    "outcomes": ["Plan a portfolio-ready project", "Polish interactions and content", "Prepare a launch checklist"]
+    "outcomes": [
+      "Plan a portfolio-ready project",
+      "Polish interactions and content",
+      "Prepare a launch checklist"
+    ],
+    "modules": [
+      {
+        "id": "module-1",
+        "title": "Start here",
+        "description": "Set up the core workflow and understand the learning goal.",
+        "lessons": [
+          {
+            "id": "lesson-1",
+            "title": "Project scope map",
+            "description": "Define audience, goals, sections, and success criteria before building.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-2",
+            "title": "Polish pass",
+            "description": "Improve copy, hierarchy, interactions, and responsive presentation.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      },
+      {
+        "id": "module-2",
+        "title": "Apply and ship",
+        "description": "Turn the new concept into practical project progress.",
+        "lessons": [
+          {
+            "id": "lesson-3",
+            "title": "Launch checklist",
+            "description": "Package the project with final QA, README notes, and sharing steps.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          },
+          {
+            "id": "lesson-4",
+            "title": "Practice review",
+            "description": "Review the important decisions, complete the checklist, and prepare for the next course step.",
+            "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "notesUrl": "./sample-notes.pdf"
+          }
+        ]
+      }
+    ]
   }
 ]
