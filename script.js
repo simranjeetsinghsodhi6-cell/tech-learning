@@ -1376,116 +1376,108 @@ function showHomeSections() {
 }
 
 
-function getCourseCompletionDate(course) {
-  const progress = getCourseProgress(course);
-  const completedByLessons = progress.total > 0 && progress.completed === progress.total;
-  const completedEnrollment = enrollments.find((enrollment) => enrollment.courseId === course.id && enrollment.status === 'completed');
-  if (!completedByLessons && !completedEnrollment) return '';
+const certificatesStorageKey = 'tech-learning-certificates';
+const studentSessionKey = 'tech-learning-student-session';
+let certificates = loadCertificates();
+let activeCertificateId = '';
 
-  const completionDatesKey = 'tech-learning-course-completion-dates';
-  let completionDates = {};
-  try {
-    completionDates = JSON.parse(localStorage.getItem(completionDatesKey)) || {};
-  } catch (error) {
-    completionDates = {};
-  }
-
-  if (!completionDates[course.id]) {
-    const enrollmentTimestamp = Number(String(completedEnrollment?.id || '').replace(/\D/g, ''));
-    const completionDate = enrollmentTimestamp ? new Date(enrollmentTimestamp) : new Date();
-    completionDates[course.id] = completionDate.toISOString();
-    localStorage.setItem(completionDatesKey, JSON.stringify(completionDates));
-  }
-  return completionDates[course.id];
+function normalizeEmail(value = '') { return String(value).trim().toLowerCase(); }
+function getStudentSession() {
+  try { return JSON.parse(sessionStorage.getItem(studentSessionKey)) || null; } catch (error) { return null; }
 }
-
+function setStudentSession(session) { sessionStorage.setItem(studentSessionKey, JSON.stringify(session)); }
+function clearStudentSession() { sessionStorage.removeItem(studentSessionKey); }
+function isOnlyAdmin() { return isAdminUnlocked(); }
+function loadCertificates() {
+  try { return JSON.parse(localStorage.getItem(certificatesStorageKey)) || []; } catch (error) { return []; }
+}
+function persistCertificates() { localStorage.setItem(certificatesStorageKey, JSON.stringify(certificates)); }
+function generateCertificateId() { return `TL-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`; }
 function formatCertificateDate(value) {
   if (!value) return 'Pending completion';
-  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(value));
+  const date = new Date(`${value}`.includes('T') ? value : `${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
 }
-
-function getCertificateStudentName(course) {
-  const completedEnrollment = enrollments.find((enrollment) => enrollment.courseId === course.id && enrollment.status === 'completed' && enrollment.name);
-  return completedEnrollment?.name || localStorage.getItem('tech-learning-student-name') || 'Tech Learning Student';
+function getCertificateCourseName(certificate) {
+  return certificate.courseName || courses.find((course) => course.id === certificate.courseId)?.title || 'Tech Learning Course';
 }
-
-function getCertificateId(course) {
-  let hash = 0;
-  [...course.id].forEach((char) => { hash = ((hash << 5) - hash) + char.charCodeAt(0); hash |= 0; });
-  return `TL-${Math.abs(hash).toString(36).toUpperCase().padStart(6, '0')}`;
-}
-
-function getCertificate(course) {
-  const completionDate = getCourseCompletionDate(course);
-  if (!completionDate) return null;
-  const certificateId = getCertificateId(course);
-  return {
-    course,
-    studentName: getCertificateStudentName(course),
-    courseName: course.title,
-    certificateId,
-    completionDate,
-    instructorName: course.instructor || 'Tech Learning',
-    verificationId: `VERIFY-${certificateId}`,
-  };
-}
-
-function renderCertificateDocument(certificate) {
-  const issuedDate = formatCertificateDate(certificate.completionDate);
-  return `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(certificate.courseName)} Certificate</title><style>body{font-family:Inter,Arial,sans-serif;margin:0;padding:3rem;background:#f8fafc;color:#0f172a}.certificate{max-width:900px;margin:auto;padding:4rem;border:12px solid #2563eb;background:white;text-align:center}.eyebrow{letter-spacing:.16em;text-transform:uppercase;color:#2563eb;font-weight:800}.name{font-size:3rem;margin:1rem 0}.course{font-size:2rem}.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem;text-align:left}.box{border:1px solid #dbe4f0;border-radius:1rem;padding:1rem}.qr{font-size:3rem}@media print{body{background:white}.certificate{border-color:#2563eb}}</style></head><body><main class="certificate"><p class="eyebrow">Certificate of Completion</p><h1 class="name">${escapeHtml(certificate.studentName)}</h1><p>has successfully completed</p><h2 class="course">${escapeHtml(certificate.courseName)}</h2><div class="meta"><div class="box"><strong>Certificate ID</strong><br>${escapeHtml(certificate.certificateId)}</div><div class="box"><strong>Date of Completion</strong><br>${escapeHtml(issuedDate)}</div><div class="box"><strong>Instructor / Platform</strong><br>${escapeHtml(certificate.instructorName)} / Tech Learning</div><div class="box"><strong>Verification</strong><br><span class="qr">▦</span><br>${escapeHtml(certificate.verificationId)}</div></div></main></body></html>`;
-}
-
-function openCertificate(courseId, download = false) {
-  const certificate = getCertificate(courses.find((course) => course.id === courseId) || {});
-  if (!certificate) return;
-  const documentHtml = renderCertificateDocument(certificate);
-  if (download) {
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(new Blob([documentHtml], { type: 'text/html' }));
-    link.download = `${certificate.course.id}-certificate.html`;
-    link.click();
-    URL.revokeObjectURL(link.href);
-    return;
-  }
-  const certificateWindow = window.open('', '_blank');
-  if (!certificateWindow) return;
-  certificateWindow.document.write(documentHtml);
-  certificateWindow.document.close();
-}
-
-function renderCertificates() {
-  const certificateGrid = certificatesSection?.querySelector('.certificate-grid');
-  if (!certificateGrid) return;
-  const certificates = courses.map(getCertificate).filter(Boolean);
-  certificateGrid.innerHTML = certificates.length ? certificates.map((certificate, index) => `
+function createCertificateCard(certificate, options = {}) {
+  const isAdminCard = Boolean(options.admin);
+  return `
     <article class="card certificate-card tilt-card reveal slide-up">
       <div class="certificate-card-header">
-        <span class="icon" aria-hidden="true">${['🏅', '📜', '🎓'][index % 3]}</span>
-        <span class="course-price">Completed</span>
+        <span class="icon" aria-hidden="true">🎓</span>
+        <span class="course-price">${escapeHtml(certificate.status || 'Issued')}</span>
       </div>
-      <h3>${escapeHtml(certificate.courseName)} Certificate</h3>
+      <h3>${escapeHtml(getCertificateCourseName(certificate))} Certificate</h3>
       <dl class="certificate-details">
-        <div><dt>Course Name</dt><dd>${escapeHtml(certificate.courseName)}</dd></div>
-        <div><dt>Issue Date</dt><dd>${escapeHtml(formatCertificateDate(certificate.completionDate))}</dd></div>
+        <div><dt>Student</dt><dd>${escapeHtml(certificate.studentName)}${isAdminCard ? ` • ${escapeHtml(certificate.studentEmail)}` : ''}</dd></div>
+        <div><dt>Course Name</dt><dd>${escapeHtml(getCertificateCourseName(certificate))}</dd></div>
+        <div><dt>Certificate ID</dt><dd>${escapeHtml(certificate.id)}</dd></div>
+        <div><dt>Completion / Issue Date</dt><dd>${escapeHtml(formatCertificateDate(certificate.completionDate))} / ${escapeHtml(formatCertificateDate(certificate.issueDate))}</dd></div>
       </dl>
       <div class="certificate-actions">
-        <button class="button primary magnetic" type="button" data-view-certificate="${escapeHtml(certificate.course.id)}">View Certificate <span>→</span></button>
-        <button class="button secondary magnetic" type="button" data-download-certificate="${escapeHtml(certificate.course.id)}">Download Certificate</button>
+        <button class="button primary magnetic" type="button" data-view-certificate-id="${escapeHtml(certificate.id)}">View Certificate <span>→</span></button>
+        <button class="button secondary magnetic" type="button" data-download-certificate-id="${escapeHtml(certificate.id)}">Download Certificate</button>
+        ${isAdminCard ? `<button class="button secondary" type="button" data-edit-certificate-id="${escapeHtml(certificate.id)}">Edit</button><button class="button secondary" type="button" data-delete-certificate-id="${escapeHtml(certificate.id)}">Delete</button>` : ''}
       </div>
-    </article>
-  `).join('') : '<p class="empty-state">Complete a course to unlock your certificates.</p>';
-  certificateGrid.querySelectorAll('[data-view-certificate]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.viewCertificate)));
-  certificateGrid.querySelectorAll('[data-download-certificate]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.downloadCertificate, true)));
+    </article>`;
 }
-
+function renderCertificateDocument(certificate) {
+  return `<article class="certificate-document"><p class="certificate-brand">TECH LEARNING</p><p class="certificate-subtitle">Certificate of Completion</p><p>This certificate is proudly presented to</p><h1 id="certificate-modal-title">${escapeHtml(certificate.studentName)}</h1><p>for successfully completing</p><h2>${escapeHtml(getCertificateCourseName(certificate))}</h2><div class="certificate-document-meta"><span>Certificate ID: ${escapeHtml(certificate.id)}</span><span>Issue Date: ${escapeHtml(formatCertificateDate(certificate.issueDate))}</span></div></article>`;
+}
+function openCertificate(certificateId, download = false) {
+  const certificate = certificates.find((item) => item.id === certificateId);
+  if (!certificate) return;
+  if (certificate.fileUrl && download) { window.open(certificate.fileUrl, '_blank', 'noopener'); return; }
+  if (download) { downloadCertificate(certificate); return; }
+  activeCertificateId = certificate.id;
+  document.querySelector('#certificate-modal-content').innerHTML = renderCertificateDocument(certificate);
+  document.querySelector('#certificate-modal')?.showModal();
+}
+function downloadCertificate(certificate) {
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(certificate.id)} Certificate</title><link rel="stylesheet" href="./styles.css"><style>body{background:#f8fafc;padding:2rem}.certificate-document{max-width:980px;margin:0 auto}@media print{button{display:none}}</style></head><body>${renderCertificateDocument(certificate)}<script>window.print()<\/script></body></html>`;
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  link.download = `${certificate.id}-certificate.html`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+function getVisibleStudentCertificates() {
+  const session = getStudentSession();
+  if (!session?.email) return [];
+  return certificates.filter((certificate) => normalizeEmail(certificate.studentEmail) === normalizeEmail(session.email));
+}
+function bindCertificateActions(scope, isAdminScope = false) {
+  scope.querySelectorAll('[data-view-certificate-id]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.viewCertificateId)));
+  scope.querySelectorAll('[data-download-certificate-id]').forEach((button) => button.addEventListener('click', () => openCertificate(button.dataset.downloadCertificateId, true)));
+  if (isAdminScope && isOnlyAdmin()) {
+    scope.querySelectorAll('[data-edit-certificate-id]').forEach((button) => button.addEventListener('click', () => editAdminCertificate(button.dataset.editCertificateId)));
+    scope.querySelectorAll('[data-delete-certificate-id]').forEach((button) => button.addEventListener('click', () => deleteAdminCertificate(button.dataset.deleteCertificateId)));
+  }
+  enableRipple(scope); enableTilt(scope); observeRevealElements(scope);
+}
+function renderCertificates() {
+  const grid = document.querySelector('#student-certificate-grid');
+  const loginCard = document.querySelector('#student-login-card');
+  const tools = document.querySelector('#student-certificate-tools');
+  const label = document.querySelector('#student-session-label');
+  if (!grid) return;
+  const session = getStudentSession();
+  loginCard.hidden = Boolean(session?.email);
+  tools.hidden = !session?.email;
+  if (label && session) label.textContent = `Logged in as ${session.name || session.email}`;
+  if (!session?.email) { grid.innerHTML = ''; return; }
+  const visible = getVisibleStudentCertificates();
+  grid.innerHTML = visible.length ? visible.map((certificate) => createCertificateCard(certificate)).join('') : '<p class="empty-state">No certificates are assigned to this student email yet.</p>';
+  bindCertificateActions(grid);
+}
 function showCertificatesPage() {
   if (!certificatesSection) return;
   document.querySelectorAll('main > *').forEach((element) => { element.hidden = element !== certificatesSection; });
   renderCertificates();
   certificatesSection.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
-  observeRevealElements(certificatesSection);
-  enableTilt(certificatesSection);
-  enableRipple(certificatesSection);
+  observeRevealElements(certificatesSection); enableTilt(certificatesSection); enableRipple(certificatesSection);
 }
 
 function handleCourseRoute() {
@@ -1578,7 +1570,67 @@ const adminEnrollmentForm = document.querySelector('#admin-enrollment-form');
 const adminEnrollmentCourse = document.querySelector('#admin-enrollment-course');
 const adminEnrollmentList = document.querySelector('#admin-enrollment-list');
 const adminSaveMessage = document.querySelector('#admin-save-message');
+const adminCertificateForm = document.querySelector('#admin-certificate-form');
+const adminCertificateList = document.querySelector('#admin-certificate-list');
+const adminCertificateCourse = document.querySelector('#admin-certificate-course');
+const adminCertificateSearch = document.querySelector('#admin-certificate-search');
+const adminCertificateMessage = document.querySelector('#admin-certificate-message');
 let enrollments = [];
+
+function resetAdminCertificateForm() {
+  adminCertificateForm?.reset();
+  document.querySelector('#admin-certificate-edit-id').value = '';
+  document.querySelector('#admin-certificate-id').value = generateCertificateId();
+  setAdminMessage(adminCertificateMessage, '');
+}
+function getAdminCertificateFormData() {
+  const courseId = adminCertificateCourse.value;
+  const course = courses.find((item) => item.id === courseId);
+  const id = document.querySelector('#admin-certificate-id').value.trim() || generateCertificateId();
+  return {
+    id,
+    studentName: document.querySelector('#admin-certificate-student-name').value.trim(),
+    studentEmail: normalizeEmail(document.querySelector('#admin-certificate-student-email').value),
+    courseId,
+    courseName: course?.title || courseId,
+    completionDate: document.querySelector('#admin-certificate-completion-date').value,
+    issueDate: document.querySelector('#admin-certificate-issue-date').value,
+    fileUrl: document.querySelector('#admin-certificate-url').value.trim(),
+    status: document.querySelector('#admin-certificate-status').value,
+    updatedAt: new Date().toISOString(),
+  };
+}
+function editAdminCertificate(certificateId) {
+  if (!isOnlyAdmin()) return;
+  const certificate = certificates.find((item) => item.id === certificateId);
+  if (!certificate) return;
+  document.querySelector('#admin-certificate-edit-id').value = certificate.id;
+  document.querySelector('#admin-certificate-student-name').value = certificate.studentName;
+  document.querySelector('#admin-certificate-student-email').value = certificate.studentEmail;
+  adminCertificateCourse.value = certificate.courseId;
+  document.querySelector('#admin-certificate-completion-date').value = certificate.completionDate;
+  document.querySelector('#admin-certificate-issue-date').value = certificate.issueDate;
+  document.querySelector('#admin-certificate-status').value = certificate.status || 'Issued';
+  document.querySelector('#admin-certificate-id').value = certificate.id;
+  document.querySelector('#admin-certificate-url').value = certificate.fileUrl || '';
+  document.querySelector('#admin-certificates')?.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' });
+}
+function deleteAdminCertificate(certificateId) {
+  if (!isOnlyAdmin()) return;
+  if (!window.confirm(`Delete certificate ${certificateId}?`)) return;
+  certificates = certificates.filter((item) => item.id !== certificateId);
+  persistCertificates();
+  renderAdminCertificates(); renderCertificates(); resetAdminCertificateForm();
+}
+function renderAdminCertificates() {
+  if (adminCertificateCourse) adminCertificateCourse.innerHTML = courses.map((course) => `<option value="${escapeHtml(course.id)}">${escapeHtml(course.title)}</option>`).join('');
+  if (!adminCertificateList) return;
+  if (!document.querySelector('#admin-certificate-id')?.value) resetAdminCertificateForm();
+  const query = normalizeEmail(adminCertificateSearch?.value || '');
+  const visible = certificates.filter((certificate) => `${certificate.id} ${certificate.studentName} ${certificate.studentEmail} ${getCertificateCourseName(certificate)} ${certificate.status}`.toLowerCase().includes(query));
+  adminCertificateList.innerHTML = visible.length ? visible.map((certificate) => createCertificateCard(certificate, { admin: true })).join('') : '<p class="empty-state">No certificates match your search yet.</p>';
+  bindCertificateActions(adminCertificateList, true);
+}
 
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
@@ -1710,6 +1762,7 @@ function renderAdminDashboard() {
       persistEnrollments(); renderAdminDashboard();
     }));
   }
+  renderAdminCertificates();
   observeRevealElements(adminPanel || document);
   enableRipple(adminPanel || document);
 }
@@ -1732,6 +1785,7 @@ document.querySelector('#admin-logout')?.addEventListener('click', () => {
   setAdminVisibility();
 });
 
+document.querySelector('#admin-open-certificates')?.addEventListener('click', () => document.querySelector('#admin-certificates')?.scrollIntoView({ behavior: motionQuery.matches ? 'auto' : 'smooth', block: 'start' }));
 document.querySelector('#admin-add-course')?.addEventListener('click', resetAdminForm);
 document.querySelector('#admin-reset-form')?.addEventListener('click', resetAdminForm);
 
@@ -1769,6 +1823,34 @@ adminEnrollmentForm?.addEventListener('submit', (event) => {
   renderCertificates();
 });
 
+
+adminCertificateForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (!isOnlyAdmin()) return;
+  const editingOriginalId = document.querySelector('#admin-certificate-edit-id').value;
+  const certificate = getAdminCertificateFormData();
+  const duplicate = certificates.some((item) => item.id === certificate.id && item.id !== editingOriginalId);
+  if (duplicate) { setAdminMessage(adminCertificateMessage, 'Certificate ID already exists.'); return; }
+  if (editingOriginalId) certificates = certificates.filter((item) => item.id !== editingOriginalId);
+  certificates.unshift(certificate);
+  persistCertificates();
+  renderAdminCertificates(); renderCertificates(); resetAdminCertificateForm();
+  setAdminMessage(adminCertificateMessage, 'Certificate saved locally and assigned to the student email.');
+});
+adminCertificateSearch?.addEventListener('input', renderAdminCertificates);
+document.querySelector('#admin-certificate-reset')?.addEventListener('click', resetAdminCertificateForm);
+document.querySelector('#student-login-form')?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const email = normalizeEmail(document.querySelector('#student-email').value);
+  const name = document.querySelector('#student-name').value.trim();
+  setStudentSession({ email, name });
+  localStorage.setItem('tech-learning-student-name', name || email);
+  renderCertificates();
+});
+document.querySelector('#student-logout')?.addEventListener('click', () => { clearStudentSession(); renderCertificates(); });
+document.querySelector('#certificate-modal-close')?.addEventListener('click', () => document.querySelector('#certificate-modal')?.close());
+document.querySelector('#certificate-print')?.addEventListener('click', () => window.print());
+document.querySelector('#certificate-modal-download')?.addEventListener('click', () => { if (activeCertificateId) openCertificate(activeCertificateId, true); });
 
 courseSearch?.addEventListener('input', renderCourses);
 window.addEventListener('hashchange', handleCourseRoute);
