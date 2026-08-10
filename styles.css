@@ -302,3 +302,29 @@ body.is-transitioning main, body.is-transitioning footer { animation: pageIn .75
 .certificate-actions { margin-top: auto; justify-content: flex-start; }
 
 @media (max-width: 720px) { .certificate-actions .button { width: 100%; } }
+
+.student-login-card { max-width: 760px; margin-bottom: 1rem; padding: 1.45rem; }
+.student-certificate-tools, .admin-certificate-heading { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.admin-certificates { grid-column: 1 / -1; padding: 1.45rem; display: grid; gap: 1rem; }
+.admin-certificate-heading p { margin-bottom: 0; }
+.admin-certificate-search { min-width: min(100%, 320px); }
+.student-login-card input, .admin-certificate-search input, .admin-certificate-form input, .admin-certificate-form select { width: 100%; min-height: 3rem; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 1rem; outline: 0; color: var(--ink); background: rgba(127,127,127,.09); font: inherit; font-weight: 700; }
+.admin-certificate-form { display: grid; gap: 1rem; }
+.admin-certificate-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.certificate-modal { width: min(1080px, calc(100% - 2rem)); border: 0; border-radius: var(--radius); padding: 0; color: var(--ink); background: var(--surface-strong); box-shadow: var(--shadow); }
+.certificate-modal::backdrop { background: rgba(15, 23, 42, .62); backdrop-filter: blur(8px); }
+.certificate-modal-shell { padding: 1rem; }
+.certificate-modal-actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: flex-end; margin-bottom: 1rem; }
+.certificate-document { position: relative; overflow: hidden; max-width: 980px; margin: 0 auto; padding: clamp(2rem, 6vw, 4.5rem); border: 10px solid transparent; border-radius: 1.5rem; text-align: center; background: linear-gradient(var(--surface-strong), var(--surface-strong)) padding-box, linear-gradient(135deg, var(--brand), var(--brand-2), var(--brand-3)) border-box; box-shadow: 0 24px 80px rgba(15,23,42,.15); }
+.certificate-document::before, .certificate-document::after { content: ''; position: absolute; width: 16rem; height: 16rem; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,.16), transparent 68%); }
+.certificate-document::before { left: -6rem; top: -6rem; }
+.certificate-document::after { right: -6rem; bottom: -6rem; }
+.certificate-brand { color: var(--brand); font-weight: 900; letter-spacing: .24em; text-transform: uppercase; }
+.certificate-subtitle { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 900; color: var(--ink); }
+.certificate-document h1 { max-width: none; margin: 1rem 0; font-size: clamp(2.6rem, 7vw, 5.2rem); letter-spacing: -.055em; }
+.certificate-document h2 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--brand); }
+.certificate-document-meta { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2rem; }
+.certificate-document-meta span { padding: .85rem 1rem; border-radius: 999px; background: rgba(127,127,127,.1); font-weight: 900; }
+@media (max-width: 940px) { .admin-certificate-list { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .student-certificate-tools, .admin-certificate-heading, .certificate-modal-actions { align-items: stretch; flex-direction: column; } .student-certificate-tools .button, .certificate-modal-actions .button { width: 100%; } }
+@media print { body > *:not(.certificate-modal) { display: none !important; } .certificate-modal { position: static; width: 100%; max-width: none; box-shadow: none; } .certificate-modal-actions { display: none; } .certificate-document { box-shadow: none; } }
