@@ -33,7 +33,7 @@
 
     <header class="site-header" id="top">
       <nav class="nav" aria-label="Main navigation">
-        <a class="logo" href="#top" aria-label="Tech Learning home">
+        <a class="logo" href="#home" aria-label="Tech Learning home">
           <span class="logo-mark">TL</span>
           <span>Tech Learning</span>
         </a>
@@ -44,13 +44,16 @@
         </button>
 
         <div class="nav-links" id="nav-menu">
-          <a href="#paths">Paths</a>
+          <a href="#home">Home</a>
+          <a href="#paths">Learn</a>
           <a href="#courses">Courses</a>
-          <a href="#certificates">My Certificates</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#projects">Projects</a>
-          <a href="#testimonials">Stories</a>
-          <a href="#faq">FAQ</a>
+          <a href="#earn">Earn</a>
+          <a href="#certificates">Certificates</a>
+          <a href="#about">About</a>
+          <a href="#login" id="nav-login-link">Login</a>
+          <a href="#student-dashboard" id="nav-student-link" hidden>Dashboard</a>
         </div>
 
         <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
@@ -60,7 +63,7 @@
     </header>
 
     <main id="main">
-      <section class="hero section-shell" aria-labelledby="hero-title">
+      <section id="home" class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true">
           <span class="blob blob-one"></span>
           <span class="blob blob-two"></span>
@@ -75,8 +78,8 @@
             and simple habits that help beginners ship confidently.
           </p>
           <div class="hero-actions">
-            <a class="button primary magnetic" href="#paths">Start learning <span>→</span></a>
-            <a class="button secondary magnetic" href="#projects">Explore projects</a>
+            <a class="button primary magnetic" href="#login">Register / Login <span>→</span></a>
+            <a class="button secondary magnetic" href="#courses">Explore courses</a>
           </div>
           <div class="stats" aria-label="Tech Learning impact statistics">
             <div><strong data-counter data-target="24">0</strong><span>guided modules</span></div>
@@ -177,112 +180,31 @@
         <div class="resource-row"><span>📘 Guided notes</span><span>🧪 Practice challenges</span><span>🚀 Deployment checklists</span><span>✨ Portfolio polish tips</span></div>
       </section>
 
+      <section id="earn" class="section section-shell">
+        <div class="section-heading reveal fade-up"><p class="eyebrow">Earn with skills</p><h2>Freelancing and affiliate opportunities for learners.</h2><p>Explore legitimate ways to practice your skills in the market. Earning ranges are estimates, never guarantees.</p></div>
+        <div class="grid" id="freelance-list" aria-live="polite"></div>
+      </section>
+
+      <section id="affiliate" class="section section-shell split">
+        <div class="reveal fade-up"><p class="eyebrow">Affiliate marketing</p><h2>Learn ethical affiliate marketing basics.</h2><p>Affiliate marketing means recommending products with trackable links and earning only when a program records eligible results. Choose products you understand, create helpful content, disclose relationships clearly, and never mislead your audience.</p><ul class="feature-list"><li>Pick useful products that match your niche.</li><li>Create reviews, tutorials, comparisons, and case studies.</li><li>Disclose affiliate relationships near links.</li><li>Build traffic through SEO, social posts, email, and communities.</li></ul></div>
+        <div class="grid" id="affiliate-list" aria-live="polite"></div>
+      </section>
+
+      <section id="login" class="section section-shell auth-section">
+        <div class="section-heading reveal fade-up"><p class="eyebrow">Unified Login</p><h2>One secure login for students and administrators.</h2><p>Accounts are authenticated with Supabase Auth. The backend profile role decides whether the user opens the student dashboard or the admin dashboard.</p></div>
+        <div class="grid auth-grid">
+          <form class="card auth-card" id="login-form"><h3>Login</h3><input id="login-email" type="email" placeholder="Email" required><input id="login-password" type="password" placeholder="Password" required autocomplete="current-password"><button class="button primary" type="submit">Login <span>→</span></button></form>
+          <form class="card auth-card" id="register-form"><h3>Register</h3><input id="register-name" type="text" placeholder="Full name" required><input id="register-email" type="email" placeholder="Email" required><input id="register-password" type="password" placeholder="Password" required autocomplete="new-password"><button class="button secondary" type="submit">Create student account</button></form>
+          <div class="card"><h3>Security note</h3><p id="auth-message" class="admin-message">Configure Supabase URL and anon key to enable real authentication. No admin password is stored in frontend code.</p></div>
+        </div>
+      </section>
+
+      <section id="student-dashboard" class="section section-shell dashboard" hidden><div class="section-heading"><p class="eyebrow">Student Dashboard</p><h2 id="student-welcome">Welcome back.</h2><p>Your courses, certificates, roadmap, earning opportunities, announcements, and profile are scoped to your authenticated account.</p></div><div class="dashboard-grid" id="student-dashboard-content"></div><button class="button secondary" type="button" data-logout>Logout</button></section>
+
 
       <section id="admin" class="section section-shell admin-dashboard" hidden aria-labelledby="admin-title">
-        <div class="section-heading reveal fade-up">
-          <p class="eyebrow">Admin Dashboard</p>
-          <h2 id="admin-title">Manage courses and enrollments.</h2>
-          <p>Protected workspace for course catalog updates, thumbnail uploads, and learner enrollment status.</p>
-        </div>
-
-        <div class="admin-lock card reveal slide-up" id="admin-lock">
-          <h3>Admin access</h3>
-          <p>Enter the admin passcode to unlock dashboard tools on this device.</p>
-          <form id="admin-login-form" class="admin-form-row">
-            <label class="sr-only" for="admin-passcode">Admin passcode</label>
-            <input id="admin-passcode" type="password" placeholder="Admin passcode" autocomplete="current-password" required />
-            <button class="button primary magnetic" type="submit">Unlock <span>→</span></button>
-          </form>
-          <p class="admin-message" id="admin-login-message" role="status" aria-live="polite"></p>
-        </div>
-
-        <div class="admin-panel" id="admin-panel" hidden>
-          <div class="admin-actions reveal fade-up">
-            <button class="button primary magnetic" type="button" id="admin-open-certificates">Certificates <span>→</span></button>
-            <button class="button primary magnetic" type="button" id="admin-add-course">Add course <span>＋</span></button>
-            <button class="button secondary magnetic" type="button" id="admin-logout">Lock dashboard</button>
-          </div>
-
-          <div class="admin-layout">
-            <form class="admin-editor card reveal slide-up" id="admin-course-form">
-              <h3 id="admin-form-title">Add course</h3>
-              <input type="hidden" id="admin-course-id" />
-              <div class="admin-field-grid">
-                <label>Title<input id="admin-title-input" type="text" required /></label>
-                <label>Category<input id="admin-category-input" type="text" required /></label>
-                <label>Instructor<input id="admin-instructor-input" type="text" required /></label>
-                <label>Duration<input id="admin-duration-input" type="text" required /></label>
-                <label>Difficulty<input id="admin-difficulty-input" type="text" required /></label>
-                <label>Price<input id="admin-price-input" type="text" required /></label>
-              </div>
-              <label>Description<textarea id="admin-description-input" rows="4" required></textarea></label>
-              <label>Outcomes<textarea id="admin-outcomes-input" rows="3" placeholder="One outcome per line"></textarea></label>
-              <label>Thumbnail emoji or image URL<input id="admin-thumbnail-input" type="text" placeholder="📚 or https://..." /></label>
-              <label>Upload thumbnail<input id="admin-thumbnail-file" type="file" accept="image/*" /></label>
-              <div class="admin-form-actions">
-                <button class="button primary magnetic" type="submit">Save course <span>→</span></button>
-                <button class="button secondary magnetic" type="button" id="admin-reset-form">Clear</button>
-              </div>
-              <p class="admin-message" id="admin-save-message" role="status" aria-live="polite"></p>
-            </form>
-
-            <div class="admin-list card reveal slide-up">
-              <h3>Courses</h3>
-              <div id="admin-course-list"></div>
-            </div>
-
-            <div class="admin-enrollments card reveal slide-up">
-              <h3>Enrollments</h3>
-              <form id="admin-enrollment-form" class="admin-form-row">
-                <select id="admin-enrollment-course" required aria-label="Enrollment course"></select>
-                <input id="admin-learner-name" type="text" placeholder="Learner name" />
-                <input id="admin-learner-email" type="email" placeholder="Learner email" required />
-                <select id="admin-enrollment-status" aria-label="Enrollment status">
-                  <option value="enrolled">Enrolled</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-                <button class="button primary magnetic" type="submit">Add enrollment</button>
-              </form>
-              <div id="admin-enrollment-list"></div>
-            </div>
-          </div>
-
-          <section class="admin-certificates card reveal slide-up" id="admin-certificates" aria-labelledby="admin-certificates-title">
-            <div class="admin-certificate-heading">
-              <div>
-                <p class="eyebrow">Certificates</p>
-                <h3 id="admin-certificates-title">Certificate management</h3>
-                <p>View, add, edit, delete, open, and download certificates assigned to students.</p>
-              </div>
-              <label class="admin-certificate-search">
-                <span class="sr-only">Search certificates</span>
-                <input id="admin-certificate-search" type="search" placeholder="Search certificates or students" autocomplete="off" />
-              </label>
-            </div>
-
-            <form id="admin-certificate-form" class="admin-certificate-form">
-              <input type="hidden" id="admin-certificate-edit-id" />
-              <div class="admin-field-grid">
-                <label>Student Name<input id="admin-certificate-student-name" type="text" required /></label>
-                <label>Student Email<input id="admin-certificate-student-email" type="email" required /></label>
-                <label>Course<select id="admin-certificate-course" required></select></label>
-                <label>Completion Date<input id="admin-certificate-completion-date" type="date" required /></label>
-                <label>Issue Date<input id="admin-certificate-issue-date" type="date" required /></label>
-                <label>Status<select id="admin-certificate-status"><option value="Issued">Issued</option><option value="Pending">Pending</option><option value="Revoked">Revoked</option></select></label>
-                <label>Certificate ID<input id="admin-certificate-id" type="text" placeholder="Auto generated" /></label>
-                <label>Certificate URL/file<input id="admin-certificate-url" type="url" placeholder="Optional existing PDF/image URL" /></label>
-              </div>
-              <div class="admin-form-actions">
-                <button class="button primary magnetic" type="submit">Create Certificate <span>→</span></button>
-                <button class="button secondary magnetic" type="button" id="admin-certificate-reset">Clear</button>
-              </div>
-              <p class="admin-message" id="admin-certificate-message" role="status" aria-live="polite"></p>
-            </form>
-
-            <div class="admin-certificate-list" id="admin-certificate-list" aria-live="polite"></div>
-          </section>
-        </div>
+        <div class="section-heading reveal fade-up"><p class="eyebrow">Admin Dashboard</p><h2 id="admin-title">Manage Tech Learning content.</h2><p>Only authenticated users with an admin role from Supabase profiles can access these controls.</p></div>
+        <div class="admin-panel"><div class="admin-actions"><button class="button secondary" type="button" data-logout>Logout</button></div><div class="admin-tabs" id="admin-tabs"></div><div class="admin-layout" id="admin-workspace"></div></div>
       </section>
 
       <section id="certificates" class="section section-shell certificates-page" hidden aria-labelledby="certificates-title">
@@ -292,21 +214,7 @@
           <p>Log in with your student email to view only certificates assigned to your account.</p>
         </div>
 
-        <div class="student-login-card card reveal slide-up" id="student-login-card">
-          <h3>Student login</h3>
-          <p>Use the same email the admin assigned to your certificate.</p>
-          <form id="student-login-form" class="admin-form-row">
-            <input id="student-name" type="text" placeholder="Student name" />
-            <input id="student-email" type="email" placeholder="Student email" required />
-            <button class="button primary magnetic" type="submit">Open My Certificates <span>→</span></button>
-          </form>
-          <p class="admin-message" id="student-login-message" role="status" aria-live="polite"></p>
-        </div>
-
-        <div class="student-certificate-tools" id="student-certificate-tools" hidden>
-          <p class="mini-label" id="student-session-label"></p>
-          <button class="button secondary magnetic" type="button" id="student-logout">Student logout</button>
-        </div>
+        <div class="student-certificate-tools" id="student-certificate-tools"><p class="mini-label">Login to view certificates assigned to your account.</p><a class="button primary magnetic" href="#login">Login / Register <span>→</span></a></div>
         <div class="grid certificate-grid" id="student-certificate-grid" aria-live="polite"></div>
       </section>
 
@@ -320,6 +228,8 @@
           <div id="certificate-modal-content"></div>
         </div>
       </dialog>
+
+      <section id="about" class="section section-shell resources"><p class="eyebrow">About</p><h2>Tech Learning helps beginners learn, build, certify, and discover ethical earning paths.</h2></section>
 
       <section id="faq" class="section section-shell faq">
         <div class="section-heading reveal fade-up"><p class="eyebrow">FAQ</p><h2>Answers before you start.</h2></div>
@@ -335,6 +245,7 @@
       <div><a class="logo" href="#top"><span class="logo-mark">TL</span><span>Tech Learning</span></a><p>&copy; 2026 Tech Learning. Built for GitHub Pages.</p></div>
       <div class="social-links" aria-label="Social links"><a href="https://github.com/" rel="noopener">GitHub</a><a href="https://www.linkedin.com/" rel="noopener">LinkedIn</a><a href="https://x.com/" rel="noopener">X</a></div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="./script.js" defer></script>
   </body>
 </html>

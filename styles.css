@@ -328,3 +328,19 @@ body.is-transitioning main, body.is-transitioning footer { animation: pageIn .75
 @media (max-width: 940px) { .admin-certificate-list { grid-template-columns: 1fr; } }
 @media (max-width: 720px) { .student-certificate-tools, .admin-certificate-heading, .certificate-modal-actions { align-items: stretch; flex-direction: column; } .student-certificate-tools .button, .certificate-modal-actions .button { width: 100%; } }
 @media print { body > *:not(.certificate-modal) { display: none !important; } .certificate-modal { position: static; width: 100%; max-width: none; box-shadow: none; } .certificate-modal-actions { display: none; } .certificate-document { box-shadow: none; } }
+
+/* Platform upgrade: unified auth, role-aware dashboards, earn, and affiliate sections. */
+.auth-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+.auth-card { display: grid; gap: .85rem; }
+.auth-card input, .dashboard input, .admin-tabs button { width: 100%; }
+.auth-card input { min-height: 3rem; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 1rem; color: var(--ink); background: rgba(127,127,127,.09); font: inherit; font-weight: 700; }
+.feature-list { margin: 1rem 0 0; padding-left: 1.2rem; color: var(--muted); font-weight: 800; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1rem; }
+.admin-tabs .button { text-transform: capitalize; }
+code { padding: .15rem .35rem; border-radius: .4rem; background: rgba(127,127,127,.13); }
+#affiliate-list { grid-template-columns: 1fr; }
+#freelance-list .card, #affiliate-list .card, .dashboard-grid .card { display: flex; flex-direction: column; gap: .65rem; }
+#freelance-list .button, #affiliate-list .button { margin-top: auto; width: fit-content; }
+@media (max-width: 940px) { .auth-grid, .dashboard-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 720px) { .auth-grid, .dashboard-grid { grid-template-columns: 1fr; } #freelance-list .button, #affiliate-list .button { width: 100%; } }
